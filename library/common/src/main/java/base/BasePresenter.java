@@ -30,17 +30,22 @@ public class BasePresenter<T, E> {
     public Context mContext;
     public RxManager mRxManager = new RxManager();
 
+    /**
+     *
+     * @param v 是View里
+     * @param m 是mol
+     */
     public void setVM(T v, E m) {
         this.mView = v;
         this.mModel = m;
         this.onStart();
     }
 
-    private void onStart() {
+    public void onStart() {
 
     }
 
-    public void onDestrory()
+    public void onDestroy()
     {
         mRxManager.clear();
     }

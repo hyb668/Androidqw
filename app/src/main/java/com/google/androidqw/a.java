@@ -1,4 +1,4 @@
-package com.google.androidqw.ui;
+package com.google.androidqw;
 
 /**
  * ============================================================
@@ -19,4 +19,9 @@ package com.google.androidqw.ui;
  * ============================================================
  **/
 public class a {
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 }

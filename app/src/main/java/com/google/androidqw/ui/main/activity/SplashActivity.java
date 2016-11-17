@@ -37,11 +37,10 @@ public class SplashActivity extends BaseActivity {
         PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);
         PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1f);
-        ObjectAnimator objectImg = ObjectAnimator.ofPropertyValuesHolder(mTvName,alpha,scaleX,scaleY);
-        ObjectAnimator objectText = ObjectAnimator.ofPropertyValuesHolder(mImgLogo,alpha,scaleX,scaleY);
+        ObjectAnimator objectText = ObjectAnimator.ofPropertyValuesHolder(mTvName,alpha,scaleX,scaleY);
+        ObjectAnimator objectImg = ObjectAnimator.ofPropertyValuesHolder(mImgLogo,alpha,scaleX,scaleY);
 
         AnimatorSet animatorSet =new AnimatorSet();
-
         animatorSet.playTogether(objectImg,objectText);
         animatorSet.setDuration(2000);
         animatorSet.setInterpolator(new AccelerateInterpolator());

@@ -47,14 +47,14 @@ import view.StatusBarCompat;
 //}
 public abstract class BaseActivity<T extends BasePresenter,E extends BaseModel> extends AppCompatActivity {
     public T mPresenter;
-    private RxManager mManager;
-    private Context mContext;
-    private E mModel;
+    public RxManager mRxManager;
+    public Context mContext;
+    public E mModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mManager = new RxManager();
+        mRxManager = new RxManager();
         // TODO: 2016/11/16  昼夜切换
         setContentView(getLayoutId());
         ButterKnife.bind(this);

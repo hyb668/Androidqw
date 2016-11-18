@@ -9,7 +9,7 @@
     </style>
 
     <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
 </resources>

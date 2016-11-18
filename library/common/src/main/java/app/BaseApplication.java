@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 
+import com.example.common.BuildConfig;
+
+import utils.LogUtils;
+
 /**
  * ============================================================
  * <p/>
@@ -31,6 +35,8 @@ public class BaseApplication    extends Application {
     public void onCreate() {
         super.onCreate();
         baseApplication = this;
+        //初始化logger
+        LogUtils.logInit(BuildConfig.LOG_DEBUG);
     }
 
     public static Context getAppContext() {

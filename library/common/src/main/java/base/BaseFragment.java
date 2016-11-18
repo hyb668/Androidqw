@@ -17,7 +17,10 @@ import utils.TUtil;
  * Created by xsf
  * on 2016.07.12:38
  */
-/***************使用例子*********************/
+
+/***************
+ * 使用例子
+ *********************/
 //1.mvp模式
 //public class SampleFragment extends BaseFragment<NewsChanelPresenter, NewsChannelModel>implements NewsChannelContract.View {
 //    @Override
@@ -49,7 +52,7 @@ import utils.TUtil;
 //    public void initView() {
 //    }
 //}
-public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel> extends Fragment {
+public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel> extends Fragment {
     protected View rootView;
     public T mPresenter;
     public E mModel;
@@ -60,21 +63,24 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null)
             rootView = inflater.inflate(getLayoutResource(), container, false);
-        mRxManager=new RxManager();
+        mRxManager = new RxManager();
         ButterKnife.bind(this, rootView);
         mPresenter = TUtil.getT(this, 0);
-        mModel= TUtil.getT(this,1);
-        if(mPresenter!=null){
-            mPresenter.mContext=this.getActivity();
+        mModel = TUtil.getT(this, 1);
+        if (mPresenter != null) {
+            mPresenter.mContext = this.getActivity();
         }
         initPresenter();
         initView();
         return rootView;
     }
+
     //获取布局文件
     protected abstract int getLayoutResource();
+
     //简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
     public abstract void initPresenter();
+
     //初始化view
     protected abstract void initView();
 
@@ -177,7 +183,9 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
         ToastUitl.showToastWithImg(text,res);
     }
 
-    *//**
+    */
+
+    /**
      * 网络访问错误提醒
      *//*
     public void showNetErrorTip() {
@@ -196,7 +204,6 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
             mPresenter.onDestroy();
         mRxManager.clear();
     }
-
 
 
 }

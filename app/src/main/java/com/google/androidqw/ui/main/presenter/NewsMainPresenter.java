@@ -32,7 +32,7 @@ public class NewsMainPresenter extends NewsMainContract.Presenter {
     //继承 BasePresenter 的子类  NewsMainContract.Presenter  ,来重写 祖父类的方法,和使用里面的成员变量来调用小父类的方法
     public void onStart() {
         super.onStart();
-        mRxManager.on(AppConstant.MENU_CURRENT_TAB_POSITON, new Action1<List<NewsChannelTable>>() {
+        mRxManage.on(AppConstant.MENU_CURRENT_TAB_POSITON, new Action1<List<NewsChannelTable>>() {
             @Override
             public void call(List<NewsChannelTable> newsChannelTables) {
                 if (newsChannelTables != null) {
@@ -44,7 +44,7 @@ public class NewsMainPresenter extends NewsMainContract.Presenter {
 
     @Override
     public void loadMineChannelsRequest() {
-        mRxManager.add(mModel.loadMineNewsChannels().subscribe(new RxSubscriber<List<NewsChannelTable>>(mContext,false) {
+        mRxManage.add(mModel.loadMineNewsChannels().subscribe(new RxSubscriber<List<NewsChannelTable>>(mContext,false) {
             @Override
             protected void _onNext(List<NewsChannelTable> newsChannelTables) {
                 //要数据

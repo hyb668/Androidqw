@@ -26,6 +26,7 @@ public class TUtil {
     public static <T>T getT(Object o,int i)
     {
         try {
+            LogUtils.loge("switch_class_after="+o+"iiiiiiiii="+i);
             //拿到他的超类
             ParameterizedType superclass = (ParameterizedType) (o.getClass().getGenericSuperclass());
             //返回他的数据类型
@@ -33,7 +34,9 @@ public class TUtil {
             //转成class文件
             Class<T> aClass= (Class<T>)type;
             //返回他的实例
-            return aClass.newInstance();
+            T t = aClass.newInstance();
+            LogUtils.loge("switch_class_after="+t);
+            return t;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

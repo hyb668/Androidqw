@@ -28,7 +28,9 @@ public class AppConstant {
     //新闻变化
     public static  final  String NEWS_CHANNEL_CHANGED="news_channel_changed";
     public static String PARAMS_NAME_NEWS_ID="news_id";
+    public static String PARAMS_NAME_NEWS_TYPE="news_type";
     public static String PARAMS_VALUE_CHANNEL_POSITION="channel_position";
+    public static String PARAMS_NAME_LIST_TO_TOP="list_to_top";
 
 
     /** 视频 */

@@ -109,7 +109,7 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
         Bundle bundle = new Bundle();
         NewsFragment fragment = new NewsFragment();
         bundle.putString(AppConstant.PARAMS_NAME_NEWS_ID, table.getNewsChannelId());
-        bundle.putString(AppConstant.PARAMS_NAME_NEWS_ID, table.getNewsChannelType());
+        bundle.putString(AppConstant.PARAMS_NAME_NEWS_TYPE, table.getNewsChannelType());
         bundle.putInt(AppConstant.PARAMS_VALUE_CHANNEL_POSITION, table.getNewsChannelIndex());
         fragment.setArguments(bundle);
         return fragment;

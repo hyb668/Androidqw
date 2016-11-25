@@ -77,6 +77,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onNext(T t) {
+        // TODO: 2016/11/21  BaseMol<T> 判断是否是code 1
         _onNext(t);
     }
     @Override

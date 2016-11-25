@@ -37,4 +37,6 @@ public class GirlData {
     public List<PhotoGirl> getResults() {
         return results;
     }
+
+
 }

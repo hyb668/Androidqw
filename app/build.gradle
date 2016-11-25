@@ -11,6 +11,12 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs{
+
+    }
+
+
     buildTypes {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -33,5 +39,5 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':library:common')
-    compile project(':library:irecyclerview')//万能适配器和recyclerview
+    //万能适配器和recyclerview
 }

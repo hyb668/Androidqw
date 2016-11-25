@@ -9,6 +9,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,6 +18,17 @@ android {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
         }
+    }
+
+    //设置虚拟机堆内存空间大小，避免在编译期间OOM
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+    //打包不检查
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 dependencies {
@@ -46,4 +58,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.6.1'//显示图片框架
     compile 'com.jakewharton:butterknife:7.0.1'//view注解
     compile 'com.github.clans:fab:1.6.4'//悬浮动画菜单
+
+    compile 'com.jcodecraeer:xrecyclerview:1.2.7'
 }

@@ -2,18 +2,17 @@ package com.google.androidqw.ui.news;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.aspsine.irecyclerview.IRecyclerView;
-import com.aspsine.irecyclerview.OnLoadMoreListener;
-import com.aspsine.irecyclerview.OnRefreshListener;
-import com.aspsine.irecyclerview.widget.LoadMoreFooterView;
 import com.google.androidqw.R;
 import com.google.androidqw.bean.NewsSummary;
 import com.google.androidqw.ui.news.adapter.NewsListAdapter;
 import com.google.androidqw.ui.news.contract.NewsListContract;
 import com.google.androidqw.ui.news.model.NewsListModel;
 import com.google.androidqw.ui.news.prensenter.NewsListPrensenter;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.List;
 import app.AppConstant;
 import base.BaseFragment;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import utils.LogUtils;
 
 /**
@@ -41,9 +41,9 @@ import utils.LogUtils;
  * <p/>
  * ============================================================
  **/
-public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel> implements NewsListContract.View, OnRefreshListener, OnLoadMoreListener {
-    @Bind(R.id.irecycleView)
-    IRecyclerView mIrecycleView;
+public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel> implements NewsListContract.View {
+    @Bind(R.id.xrecycleView)
+    XRecyclerView mXrecycleView;
     private String mNesId;
     private String mNewsType;
     private List<NewsSummary> datas = new ArrayList<>();
@@ -70,13 +70,23 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
             mNesId = arguments.getString(AppConstant.PARAMS_NAME_NEWS_ID);
             mNewsType = arguments.getString(AppConstant.PARAMS_NAME_NEWS_TYPE);
         }
-        mIrecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mXrecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         newsListAdapter = new NewsListAdapter(getContext(), datas);
-        mIrecycleView.setAdapter(newsListAdapter);
-        mIrecycleView.setOnRefreshListener(this);
-        mIrecycleView.setOnLoadMoreListener(this);
-        //数据为空才去请求
-        if (newsListAdapter.getItemCount() <= 0) {
+        mXrecycleView.setAdapter(newsListAdapter);
+        mXrecycleView.setRefreshing(true);
+        mXrecycleView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
+//        //数据为空才去请求
+    if (newsListAdapter.getItemCount() <= 0) {
             mStartPage = 0;
             mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
         }
@@ -106,16 +116,18 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
     public void showErrorTip(String msg) {
 
     }
+
     @Override
-    public void onRefresh() {
-        //上拉刷新
-        newsListAdapter.getPageBean().setRefresh(true);
-        mIrecycleView.setLoadMoreStatus(LoadMoreFooterView.Status.LOADING);
-        mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     @Override
-    public void onLoadMore(View loadMoreView) {
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

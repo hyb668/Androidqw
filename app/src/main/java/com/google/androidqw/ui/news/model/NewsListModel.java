@@ -35,9 +35,8 @@ import utils.TimeUtil;
  **/
 public class NewsListModel implements NewsListContract.Model {
     @Override
-    public Observable<List<NewsSummary>> getNewsListData(String type, final String id, int startPage) {
-        return Api.getDefault(HostType.NETEASE_NEWS_VIDEO)
-                .getNewsList(Api.getCacheControl(), type, id, startPage)
+    public Observable<List<NewsSummary>> getNewsListData(final String type, final String id, final int startPage) {
+        return Api.getDefault(HostType.NETEASE_NEWS_VIDEO).getNewsList(Api.getCacheControl(),type, id, startPage)
                 .flatMap(new Func1<Map<String, List<NewsSummary>>, Observable<NewsSummary>>() {
                     @Override
                     public Observable<NewsSummary> call(Map<String, List<NewsSummary>> map) {
@@ -48,20 +47,24 @@ public class NewsListModel implements NewsListContract.Model {
                         return Observable.from(map.get(id));
                     }
                 })
+                //转化时间
                 .map(new Func1<NewsSummary, NewsSummary>() {
                     @Override
-                    public NewsSummary call(NewsSummary summary) {
-                        //对象转换成对象
-                        summary.setPtime(TimeUtil.formatDate(summary.getPtime()));
-                        return summary;
+                    public NewsSummary call(NewsSummary newsSummary) {
+                        String ptime = TimeUtil.formatDate(newsSummary.getPtime());
+                        newsSummary.setPtime(ptime);
+                        return newsSummary;
                     }
                 })
-                .distinct()
+                .distinct()//去重
                 .toSortedList(new Func2<NewsSummary, NewsSummary, Integer>() {
                     @Override
-                    public Integer call(NewsSummary summary, NewsSummary summary2) {
-                        return summary.getPtime().compareTo(summary2.getPtime());
+                    public Integer call(NewsSummary newsSummary, NewsSummary newsSummary2) {
+                        return newsSummary2.getPtime().compareTo(newsSummary.getPtime());
                     }
-                }).compose(RxSchedulers.<List<NewsSummary>>io_main());
+                })
+                //声明线程调度
+                .compose(RxSchedulers.<List<NewsSummary>>io_main());
     }
+
 }

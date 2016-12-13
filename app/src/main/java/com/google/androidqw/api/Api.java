@@ -103,8 +103,6 @@ public class Api {
         };
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(READ_TIME_OUT, TimeUnit.MICROSECONDS)
-                .connectTimeout(CONNECT_TIME_OUT, TimeUnit.MICROSECONDS)
                 .addNetworkInterceptor(mRewriteCacheControlInterceptor)
                 .addInterceptor(mRewriteCacheControlInterceptor)
                 .addInterceptor(headerInterceptor)
@@ -117,7 +115,8 @@ public class Api {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl(ApiConstants.getHost(hostType))
+              //  .baseUrl(ApiConstants.getHost(hostType))
+                .baseUrl("http://c.m.163.com/")
                 .build();
 
         mApiService = retrofit.create(ApiService.class);

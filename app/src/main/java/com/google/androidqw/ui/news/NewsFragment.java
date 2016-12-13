@@ -21,6 +21,7 @@ import app.AppConstant;
 import base.BaseFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import utils.CollectionUtils;
 import utils.LogUtils;
 
 /**
@@ -73,20 +74,21 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
         mXrecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         newsListAdapter = new NewsListAdapter(getContext(), datas);
         mXrecycleView.setAdapter(newsListAdapter);
-        mXrecycleView.setRefreshing(true);
+        mXrecycleView.setPullRefreshEnabled(true);
+        mXrecycleView.setLoadingMoreEnabled(true);
         mXrecycleView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-
+                mStartPage = 0;
+                mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
             }
 
             @Override
             public void onLoadMore() {
-
+                mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
             }
         });
-//        //数据为空才去请求
-    if (newsListAdapter.getItemCount() <= 0) {
+        if (newsListAdapter.getItemCount() <= 0) {
             mStartPage = 0;
             mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
         }
@@ -95,6 +97,17 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
     @Override
     public void returnNewsListData(List<NewsSummary> newsSummaries) {
         LogUtils.logd("datas=" + newsSummaries);
+        if (!CollectionUtils.isNullOrEmpty(newsSummaries)) {
+            if (mStartPage == 0) {
+                newsListAdapter.replaceAll(newsSummaries);
+                mXrecycleView.refreshComplete();
+            } else {
+                newsListAdapter.addAll(newsSummaries);
+                mXrecycleView.loadMoreComplete();
+            }
+
+            mStartPage += 20;
+        }
     }
 
     @Override

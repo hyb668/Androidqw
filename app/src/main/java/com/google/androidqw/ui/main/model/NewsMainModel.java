@@ -42,7 +42,7 @@ public class NewsMainModel implements NewsMainContract.Model {
             public void call(Subscriber<? super List<NewsChannelTable>> subscriber) {
                 ArrayList<NewsChannelTable> newsChannelTables = (ArrayList<NewsChannelTable>) ACache.get(BaseApplication.getAppContext()).getAsObject(AppConstant.CHANNEL_MINE);
                 if (CollectionUtils.isNullOrEmpty(newsChannelTables)) {
-                    newsChannelTables = (ArrayList<NewsChannelTable>) NewsChannelTableManager.loadNewsChannelsMine();
+                    newsChannelTables = (ArrayList<NewsChannelTable>) NewsChannelTableManager.loadNewsChannelsStatic();
                     ACache.get(BaseApplication.getAppContext()).put(AppConstant.MENU_SHOW_HIDE,newsChannelTables);
                 }
                 subscriber.onNext(newsChannelTables);

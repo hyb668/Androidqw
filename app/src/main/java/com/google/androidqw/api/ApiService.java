@@ -6,6 +6,7 @@ import com.google.androidqw.bean.NewsDetail;
 import com.google.androidqw.bean.NewsSummary;
 import com.google.androidqw.bean.User;
 import com.google.androidqw.bean.VideoData;
+import com.google.androidqw.ui.news.model.SignMol;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,16 @@ public interface ApiService {
             @Header("Cache-Control") String cacheControl,
             @Path("type") String type, @Path("id") String id,
             @Path("startPage") int startPage);
+
+    @GET
+    Observable<List<NewsSummary>> getNewsListnew(
+            @Url String url
+            );
+
+    @GET
+    Observable<SignMol> getSign(
+            @Url String url
+    );
 
     @GET
     Observable<ResponseBody> getNewsBodyHtmlPhoto(

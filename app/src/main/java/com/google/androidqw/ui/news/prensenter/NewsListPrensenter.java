@@ -1,6 +1,5 @@
 package com.google.androidqw.ui.news.prensenter;
 
-import com.google.androidqw.R;
 import com.google.androidqw.bean.NewsSummary;
 import com.google.androidqw.ui.news.contract.NewsListContract;
 
@@ -42,24 +41,38 @@ public class NewsListPrensenter extends NewsListContract.Presenter {
 
     @Override
     public void getNewsListDataRequest(String type, String id, int startPage) {
-        mRxManage.add(mModel.getNewsListData(type, id, startPage).subscribe(new RxSubscriber<List<NewsSummary>>(mContext, false) {
-            @Override
-            public void onStart() {
-                super.onStart();
-                mView.showLoading(mContext.getString(R.string.loading));
-            }
+      mRxManage.add(mModel.getNewsListData(type,id,startPage).subscribe(new RxSubscriber<List<NewsSummary>>(mContext, false) {
+          @Override
+          protected void _onNext(List<NewsSummary> summaries) {
+              mView.returnNewsListData(summaries);
+          }
 
-            @Override
-            protected void _onNext(List<NewsSummary> newsSummaries) {
-                mView.returnNewsListData(newsSummaries);
-                mView.stopLoading();
+          @Override
+          protected void _onError(String message) {
+              mView.showErrorTip(message);
+          }
 
-            }
+      }));
 
-            @Override
-            protected void _onError(String message) {
-                mView.showErrorTip(message);
-            }
-        }));
+//        mRxManage.add();
+//                .subscribe(new RxSubscriber<List<NewsSummary>>(mContext, false) {
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//                mView.showLoading(mContext.getString(R.string.loading));
+//            }
+//
+//            @Override
+//            protected void _onNext(List<NewsSummary> newsSummaries) {
+//                mView.returnNewsListData(newsSummaries);
+//                mView.stopLoading();
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                mView.showErrorTip(message);
+//            }
+//        }));
     }
 }

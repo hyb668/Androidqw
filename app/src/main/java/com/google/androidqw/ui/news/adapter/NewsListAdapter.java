@@ -18,6 +18,7 @@ import java.util.List;
 import base.BaseRecycleView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import utils.CollectionUtils;
 
 import static com.google.androidqw.R.id.news_summary_photo_iv_left;
 
@@ -61,10 +62,10 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ContentItemHolder) {
-            ContentItemHolder contentItemHolder= (ContentItemHolder) holder;
+            ContentItemHolder contentItemHolder = (ContentItemHolder) holder;
             contentItemHolder.setItemDatas(datas.get(position));
         } else if (holder instanceof PhotoItemHolder) {
-            PhotoItemHolder contentItemHolder= (PhotoItemHolder) holder;
+            PhotoItemHolder contentItemHolder = (PhotoItemHolder) holder;
             contentItemHolder.setItemDatas(datas.get(position));
         }
     }
@@ -99,7 +100,7 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
         public void setItemDatas(NewsSummary summary) {
             mNewsSummaryTitleTv.setText(summary.getTitle());
             mNewsSummaryDigestTv.setText(summary.getDigest());
-            setImageUrl(summary.getImgsrc(),mNewsSummaryPhotoIv);
+            setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIv);
         }
     }
 
@@ -127,7 +128,71 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
         public void setItemDatas(NewsSummary summary) {
             mNewsSummaryTitleTv.setText(summary.getTitle());
             mNewsSummaryPtimeTv.setText(summary.getPtime());
-            setImageUrl(summary.getImgsrc(),mNewsSummaryPhotoIvMiddle);
+            setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIvMiddle);
+            setImagDatas(summary);
         }
+
+
+        private void setImagDatas(NewsSummary summary) {
+            if (CollectionUtils.isNullOrEmpty(summary.getAds())) {
+                setPicVisibleAndDatas("_01", summary.getAds());
+            } else if (CollectionUtils.isNullOrEmpty(summary.getImgextra())) {
+                setPicVisibleAndDatas("_02", summary.getImgextra());
+            } else {
+                //无数据
+                String imgsrc = summary.getImgsrc();
+            }
+        }
+
+        private void setPicVisibleAndDatas(String type, List list) {
+            //无数据,肯定不会走这里
+
+            switch (list.size()) {
+                case 1:
+                    //NewsSummary.AdsBean adsBean = (NewsSummary.AdsBean) list.get(0);
+                    // setImageUrl(, mNewsSummaryPhotoIvLeft);
+                    List<NewsSummary.AdsBean> datas = list;
+                    List<NewsSummary.ImgextraBean> datas2 = list;
+                    NewsSummary.AdsBean adsBean = (NewsSummary.AdsBean) getPicBean(type, list, 0);
+                    NewsSummary.ImgextraBean imgextraBean = (NewsSummary.ImgextraBean) getPicBean(type, list, 0);
+
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                default:
+                    //超过3个
+                    break;
+            }
+
+//        if ("_01".equals())
+        }
+
+        private Object getPicBean(String type, List list, int position) {
+            if ("_01".equals(type)) {
+                return list.get(position);
+            } else if ("_02".equals(type)) {
+                return list.get(position);
+            }
+            return "";
+        }
+    }
+
+
+    @Override
+    public void replaceAll(List<NewsSummary> elements) {
+        if (datas.size() > 0) {
+            datas.clear();
+        }
+        datas.addAll(elements);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addAll(List<NewsSummary> elements) {
+        datas.addAll(elements);
+        notifyDataSetChanged();
     }
 }

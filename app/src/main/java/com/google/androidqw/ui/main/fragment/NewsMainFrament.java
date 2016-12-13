@@ -26,9 +26,6 @@ import base.BaseFragment;
 import base.BaseFramentAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Subscriber;
-import utils.LogUtils;
 
 /**
  * ============================================================
@@ -79,29 +76,15 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
     public void returnMineNewsChannels(List<NewsChannelTable> newsChannelTables) {
         final List<String> channelName = new ArrayList<>();
         final List<Fragment> mNewsFramentList = new ArrayList<>();
-
-        Observable.from(newsChannelTables).subscribe(new Subscriber<NewsChannelTable>() {
-            @Override
-            public void onCompleted() {
-                BaseFramentAdapter framentAdapter = new BaseFramentAdapter(getChildFragmentManager(), mNewsFramentList, channelName);
-                mViewPager.setAdapter(framentAdapter);
-                mTabs.setupWithViewPager(mViewPager);
-                MyUtils.dynamicSetTabLayoutMode(mTabs);
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(NewsChannelTable table) {
-                LogUtils.loge("" + table);
-                channelName.add(table.getNewsChannelName());
-                mNewsFramentList.add(createListFrament(table));
-            }
-        });
+        for (NewsChannelTable table:newsChannelTables
+             ) {
+            channelName.add(table.getNewsChannelName());
+            mNewsFramentList.add(createListFrament(table));
+        }
+        BaseFramentAdapter framentAdapter = new BaseFramentAdapter(getChildFragmentManager(), mNewsFramentList, channelName);
+        mViewPager.setAdapter(framentAdapter);
+        mTabs.setupWithViewPager(mViewPager);
+        MyUtils.dynamicSetTabLayoutMode(mTabs);
     }
 
     //初始化新闻界面fragment

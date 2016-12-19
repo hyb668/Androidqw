@@ -15,14 +15,11 @@ public class CollectionUtils {
     /**
      * 判断集合是否为null或者0个元素
      *
-     * @param c
+     * @param c s
      * @return
      */
     public static boolean isNullOrEmpty(Collection c) {
-        if (null == c || c.isEmpty()) {
-            return true;
-        }
-        return false;
+        return null == c || c.isEmpty();
     }
 
     public static Type getT(Object o) {

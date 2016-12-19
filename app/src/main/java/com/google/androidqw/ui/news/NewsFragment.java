@@ -62,6 +62,8 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
         mPresenter.setVM(this, mModel);
     }
 
+
+
     /**
      */
     @Override
@@ -112,7 +114,7 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
 
     @Override
     public void scrolltoTop() {
-
+        mXrecycleView.smoothScrollToPosition(0);
     }
 
     @Override
@@ -132,7 +134,7 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
+        // TODO: inflate retrofitTest fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;

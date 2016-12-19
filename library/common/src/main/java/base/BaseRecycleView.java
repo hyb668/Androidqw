@@ -2,6 +2,7 @@ package base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -44,6 +45,15 @@ public class BaseRecycleView<T> extends RecyclerView.Adapter implements DataIO<T
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    public void  setVisible(View v, boolean visible){
+        if (visible) {
+            v.setVisibility(View.VISIBLE);
+        }else{
+            v.setVisibility(View.GONE);
+        }
 
     }
 

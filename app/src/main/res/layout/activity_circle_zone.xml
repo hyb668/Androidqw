@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+
+        android:id="@+id/activity_circle_zone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.google.androidqw.ui.zone.CircleZoneActivity">
+
+
+        <view.NormarlTitle
+            android:id="@+id/titlt_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/xrecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/titlt_tab"/>
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/item_floating_action_button"/>
+
+</android.support.design.widget.CoordinatorLayout>

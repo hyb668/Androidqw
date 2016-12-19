@@ -31,7 +31,7 @@ public class NewsListPrensenter extends NewsListContract.Presenter {
     @Override
     public void onStart() {
         super.onStart();
-        mRxManage.on(AppConstant.PARAMS_NAME_LIST_TO_TOP, new Action1<Object>() {
+        mRxManage.on(AppConstant.NEWLIST_TO_TOP, new Action1<Object>() {
             @Override
             public void call(Object s) {
                 mView.scrolltoTop();
@@ -52,6 +52,11 @@ public class NewsListPrensenter extends NewsListContract.Presenter {
               mView.showErrorTip(message);
           }
 
+          @Override
+          public void onCompleted() {
+              super.onCompleted();
+              mView.stopLoading();
+          }
       }));
 
 //        mRxManage.add();

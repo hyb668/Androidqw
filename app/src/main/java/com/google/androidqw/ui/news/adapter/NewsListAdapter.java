@@ -19,8 +19,7 @@ import base.BaseRecycleView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import utils.CollectionUtils;
-
-import static com.google.androidqw.R.id.news_summary_photo_iv_left;
+import utils.DisplayUtil;
 
 /**
  * ============================================================
@@ -100,6 +99,7 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
         public void setItemDatas(NewsSummary summary) {
             mNewsSummaryTitleTv.setText(summary.getTitle());
             mNewsSummaryDigestTv.setText(summary.getDigest());
+            mNewsSummaryPtimeTv.setText(summary.getPtime());
             setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIv);
         }
     }
@@ -107,7 +107,7 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
     class PhotoItemHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.news_summary_title_tv)
         TextView mNewsSummaryTitleTv;
-        @Bind(news_summary_photo_iv_left)
+        @Bind(R.id.news_summary_photo_iv_left)
         ImageView mNewsSummaryPhotoIvLeft;
         @Bind(R.id.news_summary_photo_iv_middle)
         ImageView mNewsSummaryPhotoIvMiddle;
@@ -123,58 +123,87 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
         public PhotoItemHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            ViewGroup.LayoutParams params = mLlRoot.getLayoutParams();
+            params.width=DisplayUtil.getScreenWidth(itemView.getContext());
+            mLlRoot.setLayoutParams(params);
         }
 
         public void setItemDatas(NewsSummary summary) {
             mNewsSummaryTitleTv.setText(summary.getTitle());
             mNewsSummaryPtimeTv.setText(summary.getPtime());
-            setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIvMiddle);
+            //setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIvMiddle);
             setImagDatas(summary);
         }
 
 
         private void setImagDatas(NewsSummary summary) {
-            if (CollectionUtils.isNullOrEmpty(summary.getAds())) {
+            int PhotoThreeHeight = DisplayUtil.dip2px(90);
+            int PhotoTwoHeight = DisplayUtil.dip2px(120);
+            int PhotoOneHeight = DisplayUtil.dip2px(150);
+            if (!CollectionUtils.isNullOrEmpty(summary.getAds())) {
                 setPicVisibleAndDatas("_01", summary.getAds());
-            } else if (CollectionUtils.isNullOrEmpty(summary.getImgextra())) {
+            } else if (!CollectionUtils.isNullOrEmpty(summary.getImgextra())) {
                 setPicVisibleAndDatas("_02", summary.getImgextra());
             } else {
                 //无数据
                 String imgsrc = summary.getImgsrc();
+                setVisible(mNewsSummaryPhotoIvLeft, true);
+                setImageUrl(imgsrc, mNewsSummaryPhotoIvLeft);
+                ViewGroup.LayoutParams params = mNewsSummaryPhotoIvGroup.getLayoutParams();
+                params.height=PhotoOneHeight;
+                mNewsSummaryPhotoIvGroup.setLayoutParams(params);
             }
         }
 
         private void setPicVisibleAndDatas(String type, List list) {
-            //无数据,肯定不会走这里
+            int PhotoThreeHeight = DisplayUtil.dip2px(90);
+            int PhotoTwoHeight = DisplayUtil.dip2px(120);
+            int PhotoOneHeight = DisplayUtil.dip2px(150);
+            ViewGroup.LayoutParams params = mNewsSummaryPhotoIvGroup.getLayoutParams();
 
+            //无数据,肯定不会走这里
+            setVisible(mNewsSummaryPhotoIvLeft, false) ;
+            setVisible(mNewsSummaryPhotoIvMiddle, false);
+            setVisible(mNewsSummaryPhotoIvRight, false);
             switch (list.size()) {
                 case 1:
-                    //NewsSummary.AdsBean adsBean = (NewsSummary.AdsBean) list.get(0);
-                    // setImageUrl(, mNewsSummaryPhotoIvLeft);
-                    List<NewsSummary.AdsBean> datas = list;
-                    List<NewsSummary.ImgextraBean> datas2 = list;
-                    NewsSummary.AdsBean adsBean = (NewsSummary.AdsBean) getPicBean(type, list, 0);
-                    NewsSummary.ImgextraBean imgextraBean = (NewsSummary.ImgextraBean) getPicBean(type, list, 0);
-
-
+                    setVisible(mNewsSummaryPhotoIvLeft, true);
+                    setImageUrl(getPicStr(type, list, 0), mNewsSummaryPhotoIvLeft);
+                    params.height=PhotoOneHeight;
                     break;
                 case 2:
-                    break;
-                case 3:
+                    setVisible(mNewsSummaryPhotoIvLeft, true);
+                    setVisible(mNewsSummaryPhotoIvMiddle, true);
+                    setImageUrl(getPicStr(type, list, 0), mNewsSummaryPhotoIvLeft);
+                    setImageUrl(getPicStr(type, list, 1), mNewsSummaryPhotoIvMiddle);
+                    params.height=PhotoTwoHeight;
                     break;
                 default:
-                    //超过3个
+                    setMuitImage(type, list);
+                    params.height=PhotoThreeHeight;
                     break;
             }
 
-//        if ("_01".equals())
+
+            mNewsSummaryPhotoIvGroup.setLayoutParams(params);
         }
 
-        private Object getPicBean(String type, List list, int position) {
+        private void setMuitImage(String type, List list) {
+            setVisible(mNewsSummaryPhotoIvLeft, true);
+            setVisible(mNewsSummaryPhotoIvMiddle, true);
+            setVisible(mNewsSummaryPhotoIvRight, true);
+            setImageUrl(getPicStr(type, list, 0), mNewsSummaryPhotoIvLeft);
+            setImageUrl(getPicStr(type, list, 1), mNewsSummaryPhotoIvMiddle);
+            setImageUrl(getPicStr(type, list, 2), mNewsSummaryPhotoIvRight);
+        }
+
+        private String getPicStr(String type, List list, int position) {
             if ("_01".equals(type)) {
-                return list.get(position);
+                NewsSummary.AdsBean adsBean = (NewsSummary.AdsBean) list.get(position);
+                return adsBean.getImgsrc();
             } else if ("_02".equals(type)) {
-                return list.get(position);
+                NewsSummary.ImgextraBean imgextraBean = (NewsSummary.ImgextraBean) list.get(position);
+                return imgextraBean.getImgsrc();
             }
             return "";
         }

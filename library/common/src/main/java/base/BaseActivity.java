@@ -60,6 +60,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         mContext = this;
+        //Contract里声明的Presenter : 也就是当前类的第一个泛型指定的控制器赋值给mPresenter
+        //Contract里声明的model : 也就是当前类的第一个泛型指定的model赋值给mModel
         mPresenter = TUtil.getT(this, 0);
         mModel=TUtil.getT(this,1);
         if(mPresenter!=null){

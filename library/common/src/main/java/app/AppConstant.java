@@ -19,6 +19,8 @@ package app;
  * ============================================================
  **/
 public class AppConstant {
+    public static  final  String NEWLIST_TO_TOP="newlist_to_top";
+
     //低面板的显示和隐藏
     public static  final  String MENU_SHOW_HIDE="menu_show_hide";
     //底部面板的位置
@@ -30,7 +32,6 @@ public class AppConstant {
     public static String PARAMS_NAME_NEWS_ID="news_id";
     public static String PARAMS_NAME_NEWS_TYPE="news_type";
     public static String PARAMS_VALUE_CHANNEL_POSITION="channel_position";
-    public static String PARAMS_NAME_LIST_TO_TOP="list_to_top";
 
 
     /** 视频 */

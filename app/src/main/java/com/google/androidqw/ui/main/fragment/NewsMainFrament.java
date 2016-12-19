@@ -1,6 +1,7 @@
 package com.google.androidqw.ui.main.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -54,6 +55,8 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
     ImageView mAddChannelIv;
     @Bind(R.id.view_pager)
     ViewPager mViewPager;
+    @Bind(R.id.floatbtn)
+    FloatingActionButton mFloatbtn;
 
     @Override
     protected int getLayoutResource() {
@@ -69,6 +72,12 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
     @Override
     protected void initView() {
         mPresenter.loadMineChannelsRequest();
+        mFloatbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRxManager.post(AppConstant.NEWLIST_TO_TOP, "");
+            }
+        });
     }
 
     @Override
@@ -76,8 +85,8 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
     public void returnMineNewsChannels(List<NewsChannelTable> newsChannelTables) {
         final List<String> channelName = new ArrayList<>();
         final List<Fragment> mNewsFramentList = new ArrayList<>();
-        for (NewsChannelTable table:newsChannelTables
-             ) {
+        for (NewsChannelTable table : newsChannelTables
+                ) {
             channelName.add(table.getNewsChannelName());
             mNewsFramentList.add(createListFrament(table));
         }
@@ -115,7 +124,7 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
+        // TODO: inflate retrofitTest fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;

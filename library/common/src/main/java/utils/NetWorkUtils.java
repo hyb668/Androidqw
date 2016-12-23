@@ -24,9 +24,7 @@ public class NetWorkUtils {
         boolean i = false;
         NetworkInfo localNetworkInfo = ((ConnectivityManager) paramContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        if ((localNetworkInfo != null) && (localNetworkInfo.isAvailable()))
-            return true;
-        return false;
+        return (localNetworkInfo != null) && (localNetworkInfo.isAvailable());
     }
     /**
      * 检测wifi是否连接
@@ -62,9 +60,6 @@ public class NetWorkUtils {
     public static boolean isLinkAvailable(String link) {
         Pattern pattern = Pattern.compile("^(http://|https://)?((?:[A-Za-z0-9]+-[A-Za-z0-9]+|[A-Za-z0-9]+)\\.)+([A-Za-z]+)[/\\?\\:]?.*$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(link);
-        if (matcher.matches()) {
-            return true;
-        }
-        return false;
+        return matcher.matches();
     }
 }

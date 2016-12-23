@@ -37,4 +37,9 @@
         <attr name="animationDuration" format="integer|reference"/>
 
     </declare-styleable>
+        <!--朋友圈 -->
+    <declare-styleable name="LayoutItemView">
+        <attr name="itemDetail" format="string" />
+        <attr name="itemPicBackground" format="color|reference" />
+    </declare-styleable>
 </resources>

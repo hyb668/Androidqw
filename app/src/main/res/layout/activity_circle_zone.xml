@@ -28,6 +28,42 @@
             android:layout_below="@+id/titlt_tab"/>
 
 
+        <LinearLayout
+            android:id="@+id/ll_bottom_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_f6f7f9"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <EditText
+                android:background="@drawable/selector_gray_border"
+                android:id="@+id/et_bottom_comment_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:padding="8dp"
+                android:textSize="@dimen/sp_14"
+                android:text="说来什么吧.."/>
+
+
+            <com.google.androidqw.view.StateButton
+                android:id="@+id/stateBtn_bottom_send_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:text="发送"
+                app:normalTextColor="@color/white"
+                app:radius="5dp"
+                app:normalBackgroundColor="@color/color_666666"/>
+
+        </LinearLayout>
+
     </RelativeLayout>
 
     <include layout="@layout/item_floating_action_button"/>

@@ -15,7 +15,7 @@ import com.google.androidqw.bean.NewsSummary;
 
 import java.util.List;
 
-import base.BaseRecycleView;
+import base.BaseReclyerViewAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import utils.CollectionUtils;
@@ -41,7 +41,7 @@ import utils.DisplayUtil;
  * <p/>
  * ============================================================
  **/
-public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
+public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
     private static final int PARAMS_VALUE_CONTENT = 0;
     private static final int PARAMS_VALUE_PHOTO = 1;
 
@@ -52,7 +52,7 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
 
     @Override
     public int getItemViewType(int position) {
-        if (!TextUtils.isEmpty(datas.get(position).getDigest())) {
+        if (!TextUtils.isEmpty(data.get(position).getDigest())) {
             return PARAMS_VALUE_CONTENT;
         }
         return PARAMS_VALUE_PHOTO;
@@ -62,10 +62,10 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ContentItemHolder) {
             ContentItemHolder contentItemHolder = (ContentItemHolder) holder;
-            contentItemHolder.setItemDatas(datas.get(position));
+            contentItemHolder.setItemDatas(data.get(position));
         } else if (holder instanceof PhotoItemHolder) {
             PhotoItemHolder contentItemHolder = (PhotoItemHolder) holder;
-            contentItemHolder.setItemDatas(datas.get(position));
+            contentItemHolder.setItemDatas(data.get(position));
         }
     }
 
@@ -207,21 +207,5 @@ public class NewsListAdapter extends BaseRecycleView<NewsSummary> {
             }
             return "";
         }
-    }
-
-
-    @Override
-    public void replaceAll(List<NewsSummary> elements) {
-        if (datas.size() > 0) {
-            datas.clear();
-        }
-        datas.addAll(elements);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void addAll(List<NewsSummary> elements) {
-        datas.addAll(elements);
-        notifyDataSetChanged();
     }
 }

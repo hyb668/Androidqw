@@ -27,7 +27,7 @@ import utils.LogUtils;
  * <p/>
  * ============================================================
  **/
-public class BaseApplication    extends Application {
+public class BaseApplication extends Application {
 
     private static BaseApplication baseApplication;
 
@@ -35,16 +35,17 @@ public class BaseApplication    extends Application {
     public void onCreate() {
         super.onCreate();
         baseApplication = this;
-        //初始化logger
-        LogUtils.logInit(BuildConfig.LOG_DEBUG);
+
     }
 
     public static Context getAppContext() {
         return baseApplication;
     }
+
     public static Resources getAppResources() {
         return baseApplication.getResources();
     }
+
     @Override
     public void onTerminate() {
         super.onTerminate();
@@ -52,6 +53,7 @@ public class BaseApplication    extends Application {
 
     /**
      * 分包
+     *
      * @param base
      */
     @Override

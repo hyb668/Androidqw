@@ -1,4 +1,4 @@
-package com.google.androidqw.ui.news.model;
+package com.google.androidqw.test;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * <p>
  * ============================================================
  **/
-public class SignMol {
+public class signMol {
 
     /**
      * code : 0

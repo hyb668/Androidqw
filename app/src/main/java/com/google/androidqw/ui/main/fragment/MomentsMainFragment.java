@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.androidqw.R;
+import com.google.androidqw.ui.task.TaskActivity;
 import com.google.androidqw.ui.zone.CircleZoneActivity;
+import com.google.androidqw.view.LayouItemView;
 
 import base.BaseFragment;
 import butterknife.Bind;
@@ -31,13 +33,28 @@ import view.NormarlTitle;
  * <p/>
  * 修订历史 ：
  * <p/>
- * ============================================================
+ * ==================================
+ * <p/>
+ * 1. 微信支付
+ * 2. 支付宝
+ * 3. 热修复
+ * 4. 多渠道打包
+ * 5. 看看万能适配器
+ * 6、路由设计模式
+ * <p/>
+ * <p/>
+ * <p/>
+ * <p/>
+ * <p/>
+ * ==========================
  **/
 public class MomentsMainFragment extends BaseFragment {
     @Bind(R.id.ll_moments)
     LinearLayout mLlMoments;
     @Bind(R.id.titlt_tab)
     NormarlTitle mTitltTab;
+    @Bind(R.id.comment_utilsView)
+    LayouItemView mCommentUtilsView;
 
     @Override
     protected int getLayoutResource() {
@@ -62,8 +79,13 @@ public class MomentsMainFragment extends BaseFragment {
     }
 
     @OnClick(R.id.ll_moments)
-    public void start() {
+    public void startCircle() {
         CircleZoneActivity.start(getContext());
+    }
+
+    @OnClick(R.id.comment_utilsView)
+    public void startCommentUilts() {
+        TaskActivity.start(getContext());
     }
 
     @Override

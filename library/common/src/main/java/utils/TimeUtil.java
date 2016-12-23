@@ -232,7 +232,8 @@ public class TimeUtil {
     public static String formatDate(String before) {
         String after;
         try {
-            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) .parse(before);
+            Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    .parse(before);
             after = new SimpleDateFormat("MM-dd HH:mm", Locale.getDefault()).format(date);
         } catch (ParseException e) {
             return before;

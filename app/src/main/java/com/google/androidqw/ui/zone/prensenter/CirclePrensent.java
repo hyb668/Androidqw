@@ -1,6 +1,17 @@
 package com.google.androidqw.ui.zone.prensenter;
 
-import base.BasePresenter;
+import com.alibaba.fastjson.JSON;
+import com.google.androidqw.bean.Result;
+import com.google.androidqw.ui.zone.DatasUtil;
+import com.google.androidqw.ui.zone.bean.CircleItem;
+import com.google.androidqw.ui.zone.contract.CircleContract;
+
+import java.util.List;
+import java.util.Random;
+
+import base.PageBean;
+import rx.Subscriber;
+import utils.JsonUtils;
 
 /**
  * ============================================================
@@ -20,5 +31,36 @@ import base.BasePresenter;
  * <p>
  * ============================================================
  **/
-public class CirclePrensent extends BasePresenter {
+public class CirclePrensent extends CircleContract.presenter {
+
+
+    @Override
+    public void getListDatasRequest(String type, String userId, int page, int rows) {
+        mRxManage.add(mModel.getListDatas(type,userId,page,rows).subscribe(new Subscriber<Result>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Result result) {
+                List<CircleItem> circleItems = JSON.parseArray(JsonUtils.getValue(result.getMsg(), "list"), CircleItem.class);
+                for (int i = 0; i < circleItems.size(); i++) {
+                    circleItems.get(i).setPictures(DatasUtil.getRandomPhotoUrlString(new Random().nextInt(9)));
+                }
+                PageBean pageBean = JSON.parseObject(JsonUtils.getValue(result.getMsg(), "page"), PageBean.class);
+                mView.returnListDatas(circleItems,pageBean);
+            }
+        }));
+
+    }
+
+    public void getNotReadNewsCount() {
+
+    }
 }

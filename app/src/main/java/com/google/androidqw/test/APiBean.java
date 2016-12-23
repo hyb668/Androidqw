@@ -1,4 +1,4 @@
-package com.google.androidqw;
+package com.google.androidqw.test;
 
 import com.google.androidqw.utils.BaseModel;
 

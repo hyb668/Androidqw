@@ -6,7 +6,7 @@ import com.google.androidqw.bean.NewsDetail;
 import com.google.androidqw.bean.NewsSummary;
 import com.google.androidqw.bean.User;
 import com.google.androidqw.bean.VideoData;
-import com.google.androidqw.ui.news.model.SignMol;
+import com.google.androidqw.test.signMol;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +47,7 @@ public interface ApiService {
             );
 
     @GET
-    Observable<SignMol> getSign(
+    Observable<signMol> getSign(
             @Url String url
     );
 

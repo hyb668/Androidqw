@@ -35,6 +35,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * 本地文件缓存工具类
  */
+
 /********************使用例子********************/
 /*
 支持对象、数组、json、字符串（对象要序列化Serializable）

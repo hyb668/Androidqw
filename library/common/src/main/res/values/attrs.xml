@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--昼夜模式主色调-->
-<attr name="dayNightBackground" format="color|reference" />
-<attr name="dayNightOneTextColor" format="color|reference" />
-<attr name="dayNightTwoTextColor" format="color|reference" />
-<attr name="dayNightThreeTextColor" format="color|reference" />
-<attr name="dayNightBackgroundDrawable" format="color|reference" />
+    <!--昼夜模式主色调-->
+    <attr name="dayNightBackground" format="color|reference"/>
+    <attr name="dayNightOneTextColor" format="color|reference"/>
+    <attr name="dayNightTwoTextColor" format="color|reference"/>
+    <attr name="dayNightThreeTextColor" format="color|reference"/>
+    <attr name="dayNightBackgroundDrawable" format="color|reference"/>
 
-<declare-styleable name="DayNightMode">
-    <attr name="dayNightBackgroundAttr" format="string|reference"/><!--切换背景属性-->
-    <attr name="dayNightOneTextColorAttr" format="string|reference"/><!--切换一级字体颜色属性-->
-    <attr name="dayNightTwoTextColorAttr" format="string|reference"/><!--切换二级字体颜色属性-->
-    <attr name="dayNightThreeTextColorAttr" format="string|reference"/><!--切换三级字体颜色属性-->
-    <attr name="dayNightBackgroundDrawableAttr" format="string|reference"/><!--切换背景图片属性-->
-</declare-styleable>
+    <declare-styleable name="DayNightMode">
+        <attr name="dayNightBackgroundAttr" format="string|reference"/><!--切换背景属性-->
+        <attr name="dayNightOneTextColorAttr" format="string|reference"/><!--切换一级字体颜色属性-->
+        <attr name="dayNightTwoTextColorAttr" format="string|reference"/><!--切换二级字体颜色属性-->
+        <attr name="dayNightThreeTextColorAttr" format="string|reference"/><!--切换三级字体颜色属性-->
+        <attr name="dayNightBackgroundDrawableAttr" format="string|reference"/><!--切换背景图片属性-->
+    </declare-styleable>
+
+<!--
+
+    <declare-styleable name="SettingItemView">
+        &lt;!&ndash; 显示不同的title内容 &ndash;&gt;
+        <attr name="title" format="string" />
+        &lt;!&ndash; 背景的设置 &ndash;&gt;
+        <attr name="itbackground">
+            <enum name="first" value="0" />
+            <enum name="middle" value="1" />
+            <enum name="last" value="2" />
+        </attr>
+
+        &lt;!&ndash; 开关是否可见 &ndash;&gt;
+        <attr name="toggleEnable" format="boolean" />
+    </declare-styleable>
+-->
+
 
 </resources>

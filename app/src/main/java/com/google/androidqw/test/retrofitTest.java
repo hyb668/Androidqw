@@ -1,7 +1,8 @@
-package com.google.androidqw;
+package com.google.androidqw.test;
 
 import android.widget.Button;
 
+import com.google.androidqw.R;
 import com.google.androidqw.utils.BaseModel;
 import com.google.androidqw.utils.ResultBean;
 import com.google.gson.Gson;

@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
         <shape >
-            <solid android:color="?attr/dayNightBackground"/>
             <stroke android:color="@color/gray" android:width="0.5dp"/>
             <corners android:radius="1dp"/>
         </shape>
     </item>
 </selector>
+           <!-- <solid android:color="?attr/dayNightBackground"/>-->

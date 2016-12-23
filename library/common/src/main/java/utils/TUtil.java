@@ -1,42 +1,16 @@
 package utils;
 
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
- * ============================================================
- * <p/>
- * 版 权 ： 刘宇哲 版权所有 (c) 2016
- * <p/>
- * 作 者 : 刘宇哲
- * <p/>
- * 版 本 ： 1.0
- * <p/>
- * 创建日期 ：  on 2016/11/16.
- * <p/>
- * 描 述 ： 类型转化
- * <p/>
- * <p/>
- * 修订历史 ：
- * <p/>
- * ============================================================
- **/
+ * 类转换初始化
+ */
 public class TUtil {
-
-    public static <T>T getT(Object o,int i)
-    {
+    public static <T> T getT(Object o, int i) {
         try {
-            LogUtils.loge("switch_class_after="+o+"iiiiiiiii="+i);
-            //拿到他的超类
-            ParameterizedType superclass = (ParameterizedType) (o.getClass().getGenericSuperclass());
-            //返回他的数据类型
-            Type type = superclass.getActualTypeArguments()[i];
-            //转成class文件
-            Class<T> aClass= (Class<T>)type;
-            //返回他的实例
-            T t = aClass.newInstance();
-            LogUtils.loge("switch_class_after="+t);
-            return t;
+            return ((Class<T>) ((ParameterizedType) (o.getClass()
+                    .getGenericSuperclass())).getActualTypeArguments()[i])
+                    .newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -47,4 +21,12 @@ public class TUtil {
         return null;
     }
 
+    public static Class<?> forName(String className) {
+        try {
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

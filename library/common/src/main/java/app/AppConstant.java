@@ -20,6 +20,7 @@ package app;
  **/
 public class AppConstant {
     public static  final  String NEWLIST_TO_TOP="newlist_to_top";
+    public static  final  String CICLEZONE_EXPAND_FINISH ="reset_expand";
 
     //低面板的显示和隐藏
     public static  final  String MENU_SHOW_HIDE="menu_show_hide";

@@ -92,7 +92,7 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
 
         public ContentItemHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ButterKnife.bind(ContentItemHolder.this, itemView);
 
         }
 
@@ -122,7 +122,7 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
 
         public PhotoItemHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            ButterKnife.bind(PhotoItemHolder.this, itemView);
             ViewGroup.LayoutParams params = mLlRoot.getLayoutParams();
             params.width=DisplayUtil.getScreenWidth(itemView.getContext());
             mLlRoot.setLayoutParams(params);
@@ -131,36 +131,33 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
         public void setItemDatas(NewsSummary summary) {
             mNewsSummaryTitleTv.setText(summary.getTitle());
             mNewsSummaryPtimeTv.setText(summary.getPtime());
-            //setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIvMiddle);
             setImagDatas(summary);
         }
 
 
         private void setImagDatas(NewsSummary summary) {
-            int PhotoThreeHeight = DisplayUtil.dip2px(90);
-            int PhotoTwoHeight = DisplayUtil.dip2px(120);
-            int PhotoOneHeight = DisplayUtil.dip2px(150);
             if (!CollectionUtils.isNullOrEmpty(summary.getAds())) {
                 setPicVisibleAndDatas("_01", summary.getAds());
             } else if (!CollectionUtils.isNullOrEmpty(summary.getImgextra())) {
                 setPicVisibleAndDatas("_02", summary.getImgextra());
             } else {
-                //无数据
+                //无数据 // STOPSHIP: 2016/12/27  这里可以抽取下 共用下面的隐藏和获取尺寸
                 String imgsrc = summary.getImgsrc();
                 setVisible(mNewsSummaryPhotoIvLeft, true);
                 setImageUrl(imgsrc, mNewsSummaryPhotoIvLeft);
                 ViewGroup.LayoutParams params = mNewsSummaryPhotoIvGroup.getLayoutParams();
-                params.height=PhotoOneHeight;
+                params.height = DisplayUtil.dip2px(150);
                 mNewsSummaryPhotoIvGroup.setLayoutParams(params);
+
             }
         }
+
 
         private void setPicVisibleAndDatas(String type, List list) {
             int PhotoThreeHeight = DisplayUtil.dip2px(90);
             int PhotoTwoHeight = DisplayUtil.dip2px(120);
             int PhotoOneHeight = DisplayUtil.dip2px(150);
             ViewGroup.LayoutParams params = mNewsSummaryPhotoIvGroup.getLayoutParams();
-
             //无数据,肯定不会走这里
             setVisible(mNewsSummaryPhotoIvLeft, false) ;
             setVisible(mNewsSummaryPhotoIvMiddle, false);

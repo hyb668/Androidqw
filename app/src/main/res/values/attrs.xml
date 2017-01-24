@@ -8,6 +8,25 @@
         <attr name="dayNightBackgroundDrawableAttr" format="string|reference"/><!--切换背景图片属性-->
     </declare-styleable>
 
+    <!--收起展开textview-->
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxCollapsedLines" format="integer"/>
+        <attr name="animDuration" format="integer"/>
+        <attr name="showExpandCollapseDrawable" format="boolean" />
+        <attr name="expandDrawable" format="reference"/>
+        <attr name="collapseDrawable" format="reference"/>
+        <attr name="contentTextColor" format="color" />
+        <attr name="collapseExpandTextColor" format="color" />
+        <attr name="contentTextSize" format="dimension" />
+        <attr name="collapseExpandTextSize" format="dimension" />
+        <attr name="textCollapse" format="string" />
+        <attr name="textExpand" format="string" />
+        <attr name="collapseExpandGrarity" >
+            <flag name="left" value="3"/>
+            <flag name="right" value="5"/>
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="StateButton">
         <!--text color-->
         <attr name="normalTextColor" format="color|reference"/>
@@ -37,9 +56,29 @@
         <attr name="animationDuration" format="integer|reference"/>
 
     </declare-styleable>
-        <!--朋友圈 -->
+    <!-- cicrle TextView的样式 -->
+    <style name="CircleItemTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#333</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+
+    <!-- 统计ImageView的样式 -->
+    <style name="CircleCommentBottomImageViewStyle">
+        <item name="android:layout_width">@dimen/dp_20</item>
+        <item name="android:layout_height">@dimen/dp_20</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <!--朋友圈 -->
     <declare-styleable name="LayoutItemView">
-        <attr name="itemDetail" format="string" />
-        <attr name="itemPicBackground" format="color|reference" />
+        <attr name="itemDetail" format="string"/>
+        <attr name="itemPicBackground" format="color|reference"/>
     </declare-styleable>
 </resources>

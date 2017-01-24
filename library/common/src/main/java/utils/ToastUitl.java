@@ -84,6 +84,16 @@ public class ToastUitl {
     /**
      * 自定义显示Toast时间
      *
+     * @param message
+     * @param duration
+     */
+    public static void show(CharSequence message) {
+        initToast(message, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 自定义显示Toast时间
+     *
      * @param context
      * @param strResId
      * @param duration

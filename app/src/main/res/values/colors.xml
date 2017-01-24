@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="circle_name_selector_color">#cccccc</color>
+    <color name="container_background">#EBEBEB</color>
+    <color name="primary_text_white">#deffffff</color>
+
     <color name="zone_textcolor_bg">#DDDDDD</color>
     <!--87%white-->
     <color name="progress_bar_unfinished">#D4D4D4</color>
@@ -47,6 +51,7 @@
     <color name="color_ececec">#ececec</color>
     <color name="color_9a9a9a">#9a9a9a</color>
     <color name="color_fc4e4e">#fc4e4e</color>
+    <color name="color_fff0f0f0">#FFF0F0F0</color>
     <color name="color_fd9405">#fd9405</color>
     <color name="color_fbfbfb">#fbfbfb</color>
     <color name="color_5c5d61">#5c5d61</color>

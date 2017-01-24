@@ -39,13 +39,14 @@ public class DisplayUtil {
 	/**
 	 * 将dip或dp值转换为px值，保证尺寸大小不变
 	 *
-	 * @param dipValue
+	 * @param dipValue 将你想要的dp值传递进来
 	 *            （DisplayMetrics类中属性density）
 	 * @return
 	 */
-	public static int dip2px( float dipValue) {
+	public static int dip2px(float dipValue) {
 		final float scale = BaseApplication.getAppContext().getResources().getDisplayMetrics().density;
 		return (int) (dipValue * scale + 0.5f);
+
 	}
 
 	/**
@@ -212,6 +213,8 @@ public class DisplayUtil {
 		params.height = height;
 		view.setLayoutParams(params);
 	}
+
+
 
 	
 	//----------------------------------------------

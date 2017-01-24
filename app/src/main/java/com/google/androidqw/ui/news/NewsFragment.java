@@ -2,9 +2,6 @@ package com.google.androidqw.ui.news;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.androidqw.R;
 import com.google.androidqw.bean.NewsSummary;
@@ -12,6 +9,7 @@ import com.google.androidqw.ui.news.adapter.NewsListAdapter;
 import com.google.androidqw.ui.news.contract.NewsListContract;
 import com.google.androidqw.ui.news.model.NewsListModel;
 import com.google.androidqw.ui.news.prensenter.NewsListPrensenter;
+import com.google.androidqw.utils.SpaceItemDecoration;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -20,8 +18,8 @@ import java.util.List;
 import app.AppConstant;
 import base.BaseFragment;
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import utils.CollectionUtils;
+import utils.DisplayUtil;
 import utils.LogUtils;
 
 /**
@@ -38,10 +36,12 @@ import utils.LogUtils;
  * 描 述 ：
  * <p/>
  * <p/>
- * 修订历史 ：
+ * 修订历史 ：// FIXME: 2016/12/27 修复卡片间距 , 一个图片显示不全的bug ;  剩余bug 上拉加载更多,无数据一直显示进度条;
+ * <p/>
  * <p/>
  * ============================================================
  **/
+
 public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel> implements NewsListContract.View {
     @Bind(R.id.xrecycleView)
     XRecyclerView mXrecycleView;
@@ -53,7 +53,6 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
 
     @Override
     protected int getLayoutResource() {
-        // TODO: 2016/11/18  找不到listview布局
         return R.layout.framents_inner_news;
     }
 
@@ -63,9 +62,6 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
     }
 
 
-
-    /**
-     */
     @Override
     protected void initView() {
         Bundle arguments = getArguments();
@@ -82,19 +78,26 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
             @Override
             public void onRefresh() {
                 mStartPage = 0;
+                //发起请求 // TODO: 2016/12/28  在网络请求失败后403 我们要让进度条消失显示没有更多数据了;
+                //mXrecycleView.setPullRefreshEnabled(true);
                 mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
             }
 
             @Override
             public void onLoadMore() {
+                //发起请求
+                //mXrecycleView.setLoadingMoreEnabled(true);
                 mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
             }
         });
         if (newsListAdapter.getItemCount() <= 0) {
+            //在这了调用防止切换界面的时候多次add,导致间距过大; 在这里只会调用一次
+            mXrecycleView.addItemDecoration(new SpaceItemDecoration(DisplayUtil.px2dip(30)));
             mStartPage = 0;
             mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
         }
     }
+
 
     @Override
     public void returnNewsListData(List<NewsSummary> newsSummaries) {
@@ -119,30 +122,17 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
 
     @Override
     public void showLoading(String title) {
-
+        //加载进度条,
     }
 
     @Override
     public void stopLoading() {
-
+        mXrecycleView.reset();
+        //关闭进度条
     }
 
     @Override
     public void showErrorTip(String msg) {
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate retrofitTest fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
+        //加载网络错误
     }
 }

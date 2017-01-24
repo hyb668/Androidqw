@@ -23,8 +23,8 @@ public class CommentItem implements Parcelable {
      * userNickname : string
      */
 
-    private String appointUserNickname;
-    private String appointUserid;
+    private String appointUserNickname; //被回复人的名字
+    private String appointUserid; //被回复人的uuid
     private String content;
     private String createTime;
     private String id;

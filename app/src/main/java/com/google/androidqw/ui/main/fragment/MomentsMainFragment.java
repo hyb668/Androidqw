@@ -88,9 +88,5 @@ public class MomentsMainFragment extends BaseFragment {
         TaskActivity.start(getContext());
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
+
 }

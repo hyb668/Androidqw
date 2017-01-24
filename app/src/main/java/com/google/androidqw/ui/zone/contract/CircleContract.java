@@ -3,6 +3,8 @@ package com.google.androidqw.ui.zone.contract;
 
 import com.google.androidqw.bean.Result;
 import com.google.androidqw.ui.zone.bean.CircleItem;
+import com.google.androidqw.ui.zone.bean.CommentConfig;
+import com.google.androidqw.ui.zone.bean.CommentItem;
 
 import java.util.List;
 
@@ -33,15 +35,29 @@ public interface CircleContract {
     //请求数据
     interface Model extends BaseModel {
         rx.Observable<Result> getListDatas(String type, String userId, final int page, int rows);
+
+        rx.Observable<CircleItem> addComment(String publishUserId, CommentConfig config, CircleItem circleItem);
     }
 
     //拿到数据设置给界面
     interface View extends BaseView {
+        //返回数据
         void returnListDatas(List<CircleItem> circleItems, PageBean pageBean);
+
+        void refreshFinish();
+
+        //是否显示输入框
+        void updateInputFrameVisibiliy(int visibiliy, CommentConfig config);
+
+        void update2AddComment(int circlePos, CommentItem commentItem);
+
+        void excuteSmoothScrollToPosition(int position);
     }
 
     //实现接口返回数据
     abstract class presenter extends BasePresenter<View, Model> {
         public abstract void getListDatasRequest(String type, String userId, int page, int rows);
+
+        public abstract void addCommentContent(String content, CommentConfig config);
     }
 }

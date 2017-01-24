@@ -12,6 +12,6 @@ public class QwApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         //初始化logger
-        LogUtils.logInit(com.example.common.BuildConfig.LOG_DEBUG);
+        LogUtils.logInit(BuildConfig.DEBUG);
     }
 }

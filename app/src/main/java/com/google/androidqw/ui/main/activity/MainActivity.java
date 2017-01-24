@@ -86,10 +86,14 @@ public class MainActivity extends BaseActivity {
             newsMainFrament = new NewsMainFrament();
             videoMainFragment = new VideoMainFragment();
             momentsMainFragment = new MomentsMainFragment();
-            //不存在new 添加进去
-            transaction.add(R.id.rl_container, newsMainFrament);
-            transaction.add(R.id.rl_container, videoMainFragment);
-            transaction.add(R.id.rl_container, momentsMainFragment);
+            //错误 :
+            // Caused by: java.lang.NullPointerException: Attempt to write to field
+            //          'int android.support.v4.app.Fragment.mNextAnim' on a null object reference
+            // 所以为了能找到创建的Fragment，推荐加上Tag。
+            // 原因: 因为我没有加上tag, 导致找不到就报错了;
+            transaction.add(R.id.rl_container, newsMainFrament,"newsMainFragment");
+            transaction.add(R.id.rl_container, videoMainFragment,"videoMainFragment");
+            transaction.add(R.id.rl_container, momentsMainFragment,"MomentsMainFragment");
         }
         transaction.commit();
         switchTo(currentTabPosition);

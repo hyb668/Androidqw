@@ -13,6 +13,7 @@ import baserx.RxSchedulers;
 import rx.Observable;
 import rx.functions.Func1;
 import rx.functions.Func2;
+import utils.LogUtils;
 import utils.TimeUtil;
 
 /**
@@ -40,6 +41,7 @@ public class NewsListModel implements NewsListContract.Model {
                 .flatMap(new Func1<Map<String, List<NewsSummary>>, Observable<NewsSummary>>() {
                     @Override
                     public Observable<NewsSummary> call(Map<String, List<NewsSummary>> map) {
+                        LogUtils.logd("NewsListModel.call","网络请求成功");
                         if (id.endsWith(ApiConstants.HOUSE_ID)) {
                             // 房产实际上针对地区的它的id与返回key不同
                             return Observable.from(map.get("北京"));

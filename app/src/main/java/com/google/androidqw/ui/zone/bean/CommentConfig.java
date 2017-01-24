@@ -26,6 +26,13 @@ public class CommentConfig {
     private String headUrl;
     private boolean isOpen=false;
 
+    public CommentConfig() {
+    }
+
+    public CommentConfig(int circlePosition) {
+        this.circlePosition = circlePosition;
+    }
+
     public String getPublishUserId() {
         return publishUserId;
     }

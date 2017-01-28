@@ -32,6 +32,10 @@
         </activity>
         <activity android:name=".ui.task.TaskActivity">
         </activity>
+        <activity android:name=".ui.task.activity.SvgAnimActivity">
+        </activity>
+        <activity android:name=".ui.news.activity.NewsDetailActivity">
+        </activity>
     </application>
 
 </manifest>

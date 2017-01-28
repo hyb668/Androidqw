@@ -2,23 +2,24 @@ package com.google.androidqw.ui.task;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.androidqw.R;
+import com.google.androidqw.ui.task.activity.SvgAnimActivity;
 import com.google.androidqw.ui.task.adapter.TaskAadapter;
 import com.google.androidqw.ui.task.bean.TaskItem;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import base.BaseActivity;
 import butterknife.Bind;
-import utils.ACache;
-import utils.CollectionUtils;
-import utils.TimeUtil;
+import unvieradapter.recyclerview.OnItemClickListener;
 import view.NormarlTitle;
 
 /**
@@ -31,6 +32,7 @@ public class TaskActivity extends BaseActivity {
     RecyclerView mLayoutRecycleView;
     @Bind(R.id.titlt_task_tab)
     NormarlTitle mTitltTaskTab;
+
 
     public static void start(Context context) {
         Intent intent = new Intent(context, TaskActivity.class);
@@ -59,25 +61,65 @@ public class TaskActivity extends BaseActivity {
      */
     private void initdata() {
         // TODO: 2016/12/23  完成任务时怎么处理
-        List<TaskItem> datas = new ArrayList();
-        datas.add(new TaskItem(UUID.randomUUID().toString(), "多渠道打包", TimeUtil.getCurrentDay()));
-        List<TaskItem> taskItems = (List<TaskItem>) ACache.get(this, "taskCache").getAsObject("taskDatasKey");
-        if (!CollectionUtils.isNullOrEmpty(taskItems)) {
-//            3                2;
-            if (datas.size() > taskItems.size()) {
-                //有新的任务,取出最后一个新的任务给本地数据
-                for (int i = datas.size() - 1; i >= 0; i--) {
-                    taskItems.add(datas.get(i));
-                    if (taskItems.size() == datas.size())
+        List<TaskItem> taskItems = setDatas();
+        TaskAadapter taskAadapter = setAdapter(taskItems);
+        taskAadapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(ViewGroup parent, View view, Object o, int position) {
+                TaskItem taskItem = (TaskItem) o;
+                switch (position) {
+                    case 0:
+                        //startActivity(new Intent(mContext, SvgAnimActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(mContext, SvgAnimActivity.class));
                         break;
                 }
             }
-        } else {
-            taskItems = datas;
-        }
-        ACache.get(this, "taskCache").put("taskDatasKey", (Serializable) taskItems);
-        mLayoutRecycleView.setAdapter(new TaskAadapter(this, R.layout.item_task, taskItems));
+
+            @Override
+            public boolean onItemLongClick(ViewGroup parent, View view, Object o, int position) {
+                return false;
+            }
+        });
+
     }
 
+    @NonNull
+    private List<TaskItem> setDatas() {
+        List<TaskItem> datas = new ArrayList();
+        addParameter(datas);
+//        List<TaskItem> taskItems = (List<TaskItem>) ACache.get(this, "taskCache").getAsObject("taskDatasKey");
+//        if (!CollectionUtils.isNullOrEmpty(taskItems)) {
+//            LogUtils.logd("TaskActivity.setDatas"+"本地缓存成功");
+//            if (datas.size() > taskItems.size()) {
+//                //有新的任务,取出最后一个新的任务给本地数据
+//                for (int i = datas.size() - 1; i >= 0; i--) {
+//                    taskItems.add(datas.get(i));
+//                    if (taskItems.size() == datas.size())
+//                        break;
+//                }
+//            }
+//        } else {
+        //         taskItems = datas;
+//        }
+//        ACache.get(this, "taskCache").put("taskDatasKey", (Serializable) taskItems);
+        return datas;
+    }
 
+    @NonNull
+    private TaskAadapter setAdapter(List<TaskItem> taskItems) {
+        TaskAadapter taskAadapter = new TaskAadapter(this, R.layout.item_task, taskItems);
+        mLayoutRecycleView.setAdapter(taskAadapter);
+        return taskAadapter;
+    }
+
+    private void addParameter(List<TaskItem> datas) {
+        //datas.add(new TaskItem(UUID.randomUUID().toString(), getString(R.string.releaseApk), TimeUtil.getCurrentDay()));
+        datas.add(new TaskItem(UUID.randomUUID().toString(), getString(R.string.svg_picture_make),  "2017-01-24 07:00", "2017-01-24 17:29"));
+    }
+
+    public void start() {
+
+    }
 }

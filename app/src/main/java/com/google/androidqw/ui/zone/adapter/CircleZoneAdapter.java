@@ -9,6 +9,8 @@ import com.google.androidqw.ui.zone.bean.CircleItem;
 import com.google.androidqw.ui.zone.prensenter.CirclePrensent;
 
 import base.BaseReclyerViewAdapter;
+import baserx.RxManager;
+import utils.LogUtils;
 
 
 /**
@@ -21,12 +23,14 @@ public class CircleZoneAdapter extends BaseReclyerViewAdapter<CircleItem> {
     private final Context mContext;
     private final CirclePrensent mPrensent;
     private int mTitltTabHeight;
+    private RxManager mRxManager;
 
-    public CircleZoneAdapter(Context context, CirclePrensent circlePrensent, int  titltTabHeight) {
+    public CircleZoneAdapter(Context context, CirclePrensent circlePrensent, int titltTabHeight, RxManager rxManager) {
         super(context);
         mContext = context;
         mPrensent = circlePrensent;
         mTitltTabHeight = titltTabHeight;
+        mRxManager = rxManager;
     }
 
 
@@ -42,9 +46,10 @@ public class CircleZoneAdapter extends BaseReclyerViewAdapter<CircleItem> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        LogUtils.logd("CircleZoneAdapter.onBindViewHolder"+"position="+position);
         super.onBindViewHolder(holder, position);
         if (holder instanceof CircleZoneHolder) {
-            ((CircleZoneHolder) holder).setData(mPrensent, get(position), position,mTitltTabHeight);
+            ((CircleZoneHolder) holder).setData(mPrensent, get(position), position, mTitltTabHeight, mRxManager);
         }
     }
 }

@@ -6,10 +6,12 @@ import com.google.androidqw.bean.Result;
 import com.google.androidqw.ui.zone.DatasUtil;
 import com.google.androidqw.ui.zone.bean.CircleItem;
 import com.google.androidqw.ui.zone.bean.CommentConfig;
+import com.google.androidqw.ui.zone.bean.FavortItem;
 import com.google.androidqw.ui.zone.contract.CircleContract;
 
 import java.util.List;
 
+import app.AppCache;
 import baserx.RxSchedulers;
 import rx.Observable;
 import rx.Subscriber;
@@ -57,10 +59,27 @@ public class CircleModel implements CircleContract.Model {
                 final Result datas = DatasUtil.getZoneListDatas();
                 List<CircleItem> circleItems = JSON.parseArray(JsonUtils.getValue(datas.getMsg(), "list"), CircleItem.class);
                 circleItems.add(circleItem);
-               // ACache.get(QwApplication.getAppContext()).put("addComment", new Gson().toJson(circleItems));
+                // ACache.get(QwApplication.getAppContext()).put("addComment", new Gson().toJson(circleItems));
                 subscriber.onNext(circleItem);
                 subscriber.onCompleted();
             }
         }).compose(RxSchedulers.<CircleItem>io_main());
+    }
+
+    @Override
+    public Observable<FavortItem> updateFavorite(final boolean isAddFavorite, final String userUuid, final String toUserUuid) {
+        return Observable.create(new Observable.OnSubscribe<FavortItem>() {
+            @Override
+            public void call(Subscriber<? super FavortItem> subscriber) {
+
+                FavortItem favortItem = null;
+                if (isAddFavorite) {
+                    favortItem=new FavortItem(userUuid, AppCache.getInstance().getUserId(),"lyz");
+                }
+
+                subscriber.onNext(favortItem);
+                subscriber.onCompleted();
+            }
+        });
     }
 }

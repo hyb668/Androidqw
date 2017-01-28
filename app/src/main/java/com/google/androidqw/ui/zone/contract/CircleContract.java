@@ -5,6 +5,7 @@ import com.google.androidqw.bean.Result;
 import com.google.androidqw.ui.zone.bean.CircleItem;
 import com.google.androidqw.ui.zone.bean.CommentConfig;
 import com.google.androidqw.ui.zone.bean.CommentItem;
+import com.google.androidqw.ui.zone.bean.FavortItem;
 
 import java.util.List;
 
@@ -37,6 +38,8 @@ public interface CircleContract {
         rx.Observable<Result> getListDatas(String type, String userId, final int page, int rows);
 
         rx.Observable<CircleItem> addComment(String publishUserId, CommentConfig config, CircleItem circleItem);
+
+        rx.Observable<FavortItem>  updateFavorite(boolean isAddFavorite, String userUuid, String toUserUuid);
     }
 
     //拿到数据设置给界面
@@ -52,6 +55,10 @@ public interface CircleContract {
         void update2AddComment(int circlePos, CommentItem commentItem);
 
         void excuteSmoothScrollToPosition(int position);
+
+        void cancelFavorite(int circlePos, String userId);
+
+        void addFavorite(int circlePos, FavortItem favortItem);
     }
 
     //实现接口返回数据

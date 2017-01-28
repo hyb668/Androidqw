@@ -18,6 +18,9 @@ import android.widget.TextView;
 
 import com.google.androidqw.R;
 
+import app.AppConstant;
+import baserx.RxManager;
+import rx.functions.Action1;
 import utils.DisplayUtil;
 import utils.LogUtils;
 
@@ -61,7 +64,6 @@ public class ExpandableTextView extends LinearLayout {
     //列表索引
     private int mPosition;
     private int mTitltTabHeight;
-    SparseBooleanArray mSparseBooleanArray;
     //true 超出屏幕
     private boolean isOverScreen;
     private Context mContext;
@@ -342,13 +344,10 @@ public class ExpandableTextView extends LinearLayout {
 
     }
 
-
-    /*******other*******/
-
     /**
      * 这里我需要知道如果列表在滑动,那么我就让isExpand 为 true ,把列表给合上
      */
-    public void setText(String text, int position, int titltTabHeight) {
+    public void setText(String text, int position, int titltTabHeight, RxManager rxManager) {
         mPosition = position;
         mTitltTabHeight = titltTabHeight;
         isHasTextContent = true;
@@ -356,16 +355,16 @@ public class ExpandableTextView extends LinearLayout {
         mTextViewContent.setText("");
         isExpand = mCollapsSatusMap.get(mPosition, true);
         mExpandOrCollapse.setText(isExpand ? getResources().getString(R.string.expand) : getResources().getString(R.string.shink));
-//        rxManager.on(AppConstant.CICLEZONE_Expand_finish, new Action1<Object>() {
-//            @Override
-//            public void call(Object o) {
-//                if (!isExpand) {
-//                    //如果当前是 展开状态,变成收起状态,reset
-//                    mTextViewContent.setMaxLines(textContentLines);
-//                    executeExpand();
-//                }
-//            }
-//        });
+        rxManager.on(AppConstant.CICLEZONE_EXPAND_FINISH, new Action1<Object>() {
+            @Override
+            public void call(Object o) {
+                if (!isExpand) {
+                    //如果当前是 展开状态,变成收起状态,reset
+                    mTextViewContent.setMaxLines(textContentLines);
+                    executeExpand();
+                }
+            }
+        });
         if (!TextUtils.isEmpty(text)) {
             mTextViewContent.setText(text);
             setVisibility(VISIBLE);

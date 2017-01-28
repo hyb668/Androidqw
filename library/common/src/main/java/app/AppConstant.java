@@ -20,6 +20,7 @@ package app;
  **/
 public class AppConstant {
     public static  final  String NEWLIST_TO_TOP="newlist_to_top";
+    //加载更多和上拉刷新后,我们把展开文本和收起进行重置
     public static  final  String CICLEZONE_EXPAND_FINISH ="reset_expand";
 
     //低面板的显示和隐藏
@@ -34,8 +35,12 @@ public class AppConstant {
     public static String PARAMS_NAME_NEWS_TYPE="news_type";
     public static String PARAMS_VALUE_CHANNEL_POSITION="channel_position";
 
-
+    //详情
+    public static String PARAMS_NAME_NEWDETAIL_POST_ID ="newdetail_post_id";
+    public static String PARAMS_NAME_NEWDETAIL_IMG_URL="newdetail_img_url";
+    public static final String TRANSITION_ANIMATION_NEWS_PHOTOS = "transition_animation_news_photos";
     /** 视频 */
+
     /** 朋友圈 */
 
 }

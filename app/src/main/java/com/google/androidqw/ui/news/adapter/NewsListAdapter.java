@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.google.androidqw.R;
 import com.google.androidqw.bean.NewsSummary;
+import com.google.androidqw.ui.news.activity.NewsDetailActivity;
 
 import java.util.List;
 
@@ -101,6 +102,16 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
             mNewsSummaryDigestTv.setText(summary.getDigest());
             mNewsSummaryPtimeTv.setText(summary.getPtime());
             setImageUrl(summary.getImgsrc(), mNewsSummaryPhotoIv);
+            initListener(summary);
+        }
+
+        private void initListener(final NewsSummary summary) {
+            mRlRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NewsDetailActivity.start(mContext,mNewsSummaryPhotoIv,summary.getPostid(),summary.getImgsrc());
+                }
+            });
         }
     }
 

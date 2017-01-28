@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Androidqw</string>
+    <string name="releaseApk">多渠道打包</string>
+    <string name="svg_picture_make">SVG图片制作</string>
 </resources>

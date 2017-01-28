@@ -17,6 +17,13 @@ public class TaskItem implements Serializable {
         this.createDate = createDate;
     }
 
+    public TaskItem(String uuid, String content, String createDate, String successDate) {
+        this.uuid = uuid;
+        this.content = content;
+        this.createDate = createDate;
+        this.successDate = successDate;
+    }
+
     public TaskItem() {
     }
 }

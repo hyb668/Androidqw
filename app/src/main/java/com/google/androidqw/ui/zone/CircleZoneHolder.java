@@ -17,6 +17,7 @@ import com.google.androidqw.ui.zone.adapter.FavoriteAdpter;
 import com.google.androidqw.ui.zone.bean.CircleItem;
 import com.google.androidqw.ui.zone.bean.CommentConfig;
 import com.google.androidqw.ui.zone.prensenter.CirclePrensent;
+import com.google.androidqw.ui.zone.spannable.ISpanClick;
 import com.google.androidqw.ui.zone.widegt.CommentLinearLayout;
 import com.google.androidqw.ui.zone.widegt.ExpandableTextView;
 import com.google.androidqw.ui.zone.widegt.FavoriteTextView;
@@ -25,6 +26,7 @@ import com.google.androidqw.ui.zone.widegt.MultiImageView;
 import java.util.Date;
 
 import app.AppCache;
+import baserx.RxManager;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.finalteam.toolsfinal.DateUtils;
@@ -57,6 +59,8 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
     LinearLayout mLinearLayoutComment;
     @Bind(R.id.tv_url_content)
     TextView mTvUrlContent;
+    @Bind(R.id.line_between_fravorite_comment)
+    View mLineBetweenFravoriteComment;
 
     private MultiImageView multiImageView;
     private CommentAdapter mCommentAdapter;
@@ -106,7 +110,7 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public void setData(final CirclePrensent circlePrensent, CircleItem circleItem, int titltTabHeight, final int position) {
+    public void setData(final CirclePrensent circlePrensent, CircleItem circleItem, final int position, int titltTabHeight, RxManager rxManager) {
         initListener(circlePrensent, circleItem, position);
         switch (mType) {
             case CircleZoneAdapter.ITEM_VIEW_TYPE_IMAGE:
@@ -132,12 +136,12 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
 
         LogUtils.logd("CircleZoneHolder.setData" + "content==" + circleItem.getContent());
         mExpandableTextView.setVerticalGravity(TextUtils.isEmpty(circleItem.getContent()) ? View.GONE : View.VISIBLE);
-        mExpandableTextView.setText(circleItem.getContent(), position,titltTabHeight);
+        mExpandableTextView.setText(circleItem.getContent(), position, titltTabHeight, rxManager);
         mExpandableTextView.setExpandedChangeLiener(new ExpandableTextView.ExpandedChangeLiener() {
             @Override
             public void onExpandedChange(boolean isExpand, int p) {
                 if (mExpandableTextView.isTextViewOverScreen()) {
-                    LogUtils.logd("CircleZoneHolder.onExpandedChange"+isExpand+"position"+p+"&position="+position);
+                    LogUtils.logd("CircleZoneHolder.onExpandedChange" + isExpand + "position" + p + "&position=" + position);
                     circlePrensent.excuteSmoothScrollToPosition(p);
                 }
             }
@@ -169,9 +173,11 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
 
         if (hasPraise) {
             mFavoritetextview.setVisibility(View.VISIBLE);
+            mLineBetweenFravoriteComment.setVisibility(View.VISIBLE);
             mFavoriteAdpter.setDatas(circleItem.getGoodjobs());
         } else {
             mFavoritetextview.setVisibility(View.GONE);
+            mLineBetweenFravoriteComment.setVisibility(View.GONE);
         }
     }
 
@@ -197,6 +203,21 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
         mLinearLayoutComment.setOnClickListener(new updateInputFrameVisibiliy(circlePrensent, circlePos, View.VISIBLE));
         mTvTvCircleComment.setOnClickListener(new updateInputFrameVisibiliy(circlePrensent, circlePos, View.VISIBLE));
 
+
+        mTvCircleFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点赞取反设置
+                boolean isAddFavorite = false;
+                if (TextUtils.isEmpty(circleItem.getCurUserFavortId())) {
+                    isAddFavorite = true;
+                }
+
+                setFavorite(circlePrensent, isAddFavorite, circleItem.getId(), circleItem.getUserId(), circlePos, v);
+
+            }
+        });
+
         mCommentlinearlayout.setClickListener(new CommentLinearLayout.OnItemClickListener() {
             @Override
             public void onItemClick(int commentPos) {
@@ -204,7 +225,6 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
                 if (AppCache.getInstance().getUserId().equals(circleItem.getReplys().get(commentPos).getUserId())) {
                     //自己
                     ToastUitl.show("点击自己");
-
                 } else {
                     //回复别人
                     ToastUitl.show("回复别人");
@@ -235,6 +255,35 @@ public class CircleZoneHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        mFavoritetextview.setSpanClickListener(new ISpanClick() {
+            @Override
+            public void onclick(int position) {
+
+            }
+        });
+    }
+
+
+    private long mLastTime = 0;
+
+    /**
+     * @param circlePrensent
+     * @param isAddFavorite  是否是add
+     * @param id
+     * @param userUuid  当前人uuid
+     * @param circlePos      列表索引
+     * @param v
+     */
+    private void setFavorite(CirclePrensent circlePrensent, boolean isAddFavorite, String id, String userUuid, int circlePos, View v) {
+        long currentTimeMillis = System.currentTimeMillis();
+        if (currentTimeMillis - mLastTime < 700) {
+            return;
+        }
+        mLastTime = currentTimeMillis;
+
+        circlePrensent.updateFavorite(isAddFavorite, id, userUuid, circlePos, v);
+
     }
 
 

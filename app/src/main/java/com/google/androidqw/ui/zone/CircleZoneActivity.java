@@ -23,16 +23,18 @@ import com.google.androidqw.ui.zone.adapter.CircleZoneAdapter;
 import com.google.androidqw.ui.zone.bean.CircleItem;
 import com.google.androidqw.ui.zone.bean.CommentConfig;
 import com.google.androidqw.ui.zone.bean.CommentItem;
+import com.google.androidqw.ui.zone.bean.FavortItem;
 import com.google.androidqw.ui.zone.contract.CircleContract;
 import com.google.androidqw.ui.zone.model.CircleModel;
 import com.google.androidqw.ui.zone.prensenter.CirclePrensent;
-import com.google.androidqw.utils.ImageUtil;
 import com.google.androidqw.view.StateButton;
+import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
 import app.AppCache;
+import app.AppConstant;
 import base.BaseActivity;
 import base.PageBean;
 import butterknife.Bind;
@@ -109,11 +111,12 @@ public class CircleZoneActivity extends BaseActivity<CirclePrensent, CircleModel
         initListener();
 
         mTitltTab.setTitleText("朋友圈动态");
+        mTitltTabHeight = mTitltTab.getMeasuredHeight();
         //设置未读消息的头
         //滑动列表关闭输入框的和计算的他位置的监听
         setTreeViewObserver();
         //初始化适配器
-        mCircleZoneAdapter = new CircleZoneAdapter(this, mPresenter,mTitltTabHeight);
+        mCircleZoneAdapter = new CircleZoneAdapter(this, mPresenter, mTitltTabHeight, mRxManager);
         mCircleZoneAdapter.openLoadAnimation(new ScaleInAnimation());
         mLinearLayoutManager = new LinearLayoutManager(this);
         mXrecycleView.setLayoutManager(mLinearLayoutManager);
@@ -157,7 +160,7 @@ public class CircleZoneActivity extends BaseActivity<CirclePrensent, CircleModel
                     int position = mConfig.getCirclePosition() + 1;//-776 - 144 =-920
                     int mEditTextBodyHeight = linearLayoutCommentBottom.getHeight();
                     //屏幕减去 - 键盘 - 动态item - 评论输入框 - 标题  -920 =  1920 - 900 - 1586 - 210 - 144
-                    mTitltTabHeight = mTitltTab.getMeasuredHeight();
+
                     int offset = screenH - heightDiff - mCircleH - mEditTextBodyHeight - mTitltTabHeight;
                     mLinearLayoutManager.scrollToPositionWithOffset(position, offset);
                     LogUtils.logd("CircleZoneActivity.getOffset" + "//键盘已经弹出" + "&offset=" + offset + "&mEditTextBodyHeight= " + mEditTextBodyHeight);
@@ -232,7 +235,7 @@ public class CircleZoneActivity extends BaseActivity<CirclePrensent, CircleModel
 
     @Override
     public void returnListDatas(List<CircleItem> circleItems, PageBean pageBean) {
-//          LogUtils.logd("CircleZoneActivity.setListDatas", new Gson().toJson(circleItems));
+        LogUtils.logd("CircleZoneActivity.setListDatas", new Gson().toJson(circleItems));
         if (mCircleZoneAdapter.getPageBean().isRefresh()) {
             //上拉刷新获取数据
             mCircleZoneAdapter.replaceAll(circleItems);
@@ -241,7 +244,7 @@ public class CircleZoneActivity extends BaseActivity<CirclePrensent, CircleModel
 
         }
 
-
+        mRxManager.post(AppConstant.CICLEZONE_EXPAND_FINISH, "");
     }
 
 
@@ -282,6 +285,30 @@ public class CircleZoneActivity extends BaseActivity<CirclePrensent, CircleModel
     @Override
     public void excuteSmoothScrollToPosition(int position) {
         mXrecycleView.smoothScrollToPosition(position);
+    }
+
+
+    //继续循环会出现,数据并发异常,我改变集合的数据后直接return 方法;
+    @Override
+    public void cancelFavorite(int circlePos, String userId) {
+        if (!TextUtils.isEmpty(userId)) {
+            List<FavortItem> goodjobs = mCircleZoneAdapter.getData().get(circlePos).getGoodjobs();
+            for (int i = 0; i < goodjobs.size(); i++) {
+                if (goodjobs.get(i).getUserId().equals(userId)) {
+                    goodjobs.remove(goodjobs.get(i));
+                    mCircleZoneAdapter.notifyItemChanged(circlePos + 1);
+                    return;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void addFavorite(int circlePos, FavortItem favortItem) {
+        if (null != favortItem) {
+            mCircleZoneAdapter.getData().get(circlePos).getGoodjobs().add(favortItem);
+            mCircleZoneAdapter.notifyItemChanged(circlePos + 1);
+        }
     }
 
     private void hideCommentHandle(int visibiliy) {
@@ -372,14 +399,6 @@ public class CircleZoneActivity extends BaseActivity<CirclePrensent, CircleModel
         }
     }
 
-    public void isShowFabButton(boolean isShow) {
-        if (isShow) {
-            ImageUtil.setViewToVISIBLE(mFab1, mFab2, mFab3, mFab4, mFab5);
-        } else {
-            ImageUtil.setViewToGONE(mFab1, mFab2, mFab3, mFab4, mFab5);
-        }
-
-    }
 
     @Override
     public void showLoading(String title) {

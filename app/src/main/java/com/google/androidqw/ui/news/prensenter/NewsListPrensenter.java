@@ -59,25 +59,5 @@ public class NewsListPrensenter extends NewsListContract.Presenter {
           }
       }));
 
-//        mRxManage.add();
-//                .subscribe(new RxSubscriber<List<NewsSummary>>(mContext, false) {
-//            @Override
-//            public void onStart() {
-//                super.onStart();
-//                mView.showLoading(mContext.getString(R.string.loading));
-//            }
-//
-//            @Override
-//            protected void _onNext(List<NewsSummary> newsSummaries) {
-//                mView.returnNewsListData(newsSummaries);
-//                mView.stopLoading();
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                mView.showErrorTip(message);
-//            }
-//        }));
     }
 }

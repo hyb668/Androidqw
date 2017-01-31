@@ -29,6 +29,10 @@ public class AppConstant {
     public static  final  String MENU_CURRENT_TAB_POSITON="menu_current_tab_positon";
     /** 新闻 */
     public static  final  String CHANNEL_MINE="channel_mine";
+    public static  final  String CHANNEL_MORE="channel_more";
+    //新闻发生拖动交换
+    public static  final  String CHANNEL_SWAP="channel_swap";
+
     //新闻变化
     public static  final  String NEWS_CHANNEL_CHANGED="news_channel_changed";
     public static String PARAMS_NAME_NEWS_ID="news_id";

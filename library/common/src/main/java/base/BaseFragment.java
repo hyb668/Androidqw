@@ -146,7 +146,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
      * 停止加载进度条
      *//*
     public void stopProgressDialog() {
-        LoadingDialog.cancelDialogForLoading();
+        LoadingDialog.showDialogForLoading();
     }
 
 

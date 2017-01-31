@@ -29,10 +29,10 @@ import rx.functions.Action1;
  **/
 public class NewsMainPresenter extends NewsMainContract.Presenter {
     @Override
-    //继承 BasePresenter 的子类  NewsMainContract.Presenter  ,来重写 祖父类的方法,和使用里面的成员变量来调用小父类的方法
+    //新闻频道进行从新选择了，我们要更新新闻首页
     public void onStart() {
         super.onStart();
-        mRxManage.on(AppConstant.MENU_CURRENT_TAB_POSITON, new Action1<List<NewsChannelTable>>() {
+        mRxManage.on(AppConstant.NEWS_CHANNEL_CHANGED, new Action1<List<NewsChannelTable>>() {
             @Override
             public void call(List<NewsChannelTable> newsChannelTables) {
                 if (newsChannelTables != null) {

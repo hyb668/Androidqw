@@ -65,6 +65,7 @@ public abstract class CommonRecycleViewAdapter<T> extends RecyclerView.Adapter<V
         return viewHolder;
     }
 
+
     protected int getPosition(RecyclerView.ViewHolder viewHolder) {
         return viewHolder.getAdapterPosition();
     }

@@ -40,10 +40,11 @@ public class NewsMainModel implements NewsMainContract.Model {
         return Observable.create(new Observable.OnSubscribe<List<NewsChannelTable>>() {
             @Override
             public void call(Subscriber<? super List<NewsChannelTable>> subscriber) {
-                ArrayList<NewsChannelTable> newsChannelTables = (ArrayList<NewsChannelTable>) ACache.get(BaseApplication.getAppContext()).getAsObject(AppConstant.CHANNEL_MINE);
+                ArrayList<NewsChannelTable> newsChannelTables = (ArrayList<NewsChannelTable>)
+                        ACache.get(BaseApplication.getAppContext()).getAsObject(AppConstant.CHANNEL_MINE);
                 if (CollectionUtils.isNullOrEmpty(newsChannelTables)) {
                     newsChannelTables = (ArrayList<NewsChannelTable>) NewsChannelTableManager.loadNewsChannelsStatic();
-                    ACache.get(BaseApplication.getAppContext()).put(AppConstant.MENU_SHOW_HIDE,newsChannelTables);
+                    ACache.get(BaseApplication.getAppContext()).put(AppConstant.CHANNEL_MINE,newsChannelTables);
                 }
                 subscriber.onNext(newsChannelTables);
                 subscriber.onCompleted();

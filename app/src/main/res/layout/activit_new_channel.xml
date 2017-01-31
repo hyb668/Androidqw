@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+
+              android:orientation="vertical"
+              android:background="@color/white"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        style="@style/action_bar"
+        android:id="@+id/toolbar"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:titleTextColor="@color/white"
+        app:title="@string/channel_manage"
+    />
+
+    <TextView
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="10dp"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/channel_explain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="我的频道"
+        style="@style/news_channel_sort_title"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_new_mine_channel"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="更多频道"
+        style="@style/news_channel_sort_title"
+    />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_new_more_channel"
+        android:overScrollMode="never"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

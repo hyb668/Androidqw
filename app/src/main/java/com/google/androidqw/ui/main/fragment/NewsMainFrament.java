@@ -17,6 +17,7 @@ import com.google.androidqw.ui.main.contract.NewsMainContract;
 import com.google.androidqw.ui.main.model.NewsMainModel;
 import com.google.androidqw.ui.main.presenter.NewsMainPresenter;
 import com.google.androidqw.ui.news.NewsFragment;
+import com.google.androidqw.ui.news.activity.NewsChannelActivity;
 import com.google.androidqw.utils.MyUtils;
 
 import java.util.ArrayList;
@@ -76,6 +77,13 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
             @Override
             public void onClick(View v) {
                 mRxManager.post(AppConstant.NEWLIST_TO_TOP, "");
+            }
+        });
+
+        mAddChannelIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewsChannelActivity.start(getContext());
             }
         });
     }

@@ -1,5 +1,6 @@
 package baserx;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.example.common.R;
@@ -7,6 +8,7 @@ import com.example.common.R;
 import app.BaseApplication;
 import rx.Subscriber;
 import utils.NetWorkUtils;
+import view.LoadingDialog;
 
 /**
  * des:订阅封装
@@ -59,15 +61,15 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onCompleted() {
-        //if (showDialog)
-           // LoadingDialog.cancelDialogForLoading();
+        if (showDialog)
+            LoadingDialog.closeDialogForloading();
     }
     @Override
     public void onStart() {
         super.onStart();
         if (showDialog) {
             try {
-            //    LoadingDialog.showDialogForLoading((Activity) mContext,msg,true);
+                LoadingDialog.showDialogForLoading((Activity) mContext,msg,true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,7 +84,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         if (showDialog)
-           // LoadingDialog.cancelDialogForLoading();
+           LoadingDialog.showDialogForLoading((Activity) mContext);
         e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(BaseApplication.getAppContext())) {

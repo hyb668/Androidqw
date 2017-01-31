@@ -1,8 +1,10 @@
 package base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -115,7 +117,13 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
 
-
+    public  static  void toolBarFinish(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.finishAfterTransition();
+        }else{
+            activity.finish();
+        }
+    }
     /**
      * 通过Class跳转界面
      **/

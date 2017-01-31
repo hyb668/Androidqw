@@ -10,30 +10,34 @@
 
     <!--可以让被标记的控件响应滚动事件-->
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:fitsSystemWindows="true"
-        >
-        <!--包含的控件可以固定在顶部-->
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--包含的控件可以固定在顶部， ?attr/colorPrimary 可以让view和状态保持一样的颜色-->
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/main_color"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:expandedTitleMarginStart="524dp"
-            app:expandedTitleMarginEnd="34dp"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="24dp"
+            app:expandedTitleMarginStart="24dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="true"
+
             >
 
             <ImageView
                 android:id="@+id/img_new_detail_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition_photos"
                 app:layout_collapseMode="parallax"
+
                 app:layout_collapseParallaxMultiplier="0.7"/>
 
             <!--盖了一层布-->
@@ -47,23 +51,24 @@
                 />
 
 
-                <!-- pin 固定模式-->
+            <!-- pin 固定模式 是固定在顶部-->
             <android.support.v7.widget.Toolbar
-                app:collapseIcon="@drawable/ic_arrow_back"
-                app:layout_collapseMode="pin"
                 android:id="@+id/toolbar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"/>
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
     <!--包含在这里的控件移动时候appLayoutBar可以缩放
        -->
     <android.support.v4.widget.NestedScrollView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/container_background"
-        android:layout_height="match_parent">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -75,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/white"
+                android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/font_small"
                 tools:text="澎湃新闻 06-06 17:24"/>
 
@@ -98,5 +103,14 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_share"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="bottom|end"/>
 
 </android.support.design.widget.CoordinatorLayout>

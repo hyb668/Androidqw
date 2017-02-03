@@ -24,16 +24,22 @@ public class ImageLoaderUtils {
     }
 
     public static void display(Context context, ImageView imageView, String url) {
+        display(context,imageView,url,R.drawable.ic_image_loading);
+    }
+
+    public static void display(Context context, ImageView imageView, String url,int lodingpic) {
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.ic_image_loading)
+                .placeholder(lodingpic)
                 .error(R.drawable.ic_empty_picture)
                 .crossFade().into(imageView);
     }
+
+
 
     public static void display(Context context, ImageView imageView, File url) {
         if (imageView == null) {

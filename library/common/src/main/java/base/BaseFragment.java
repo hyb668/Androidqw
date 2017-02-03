@@ -1,5 +1,7 @@
 package base;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -203,6 +205,27 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         if (mPresenter != null)
             mPresenter.onDestroy();
         mRxManager.clear();
+    }
+
+
+    public  void hideButtion(View view) {
+//        float fromArgs=0;
+//        float toArags=1f;
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 1f, 0);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view,"scaleX", 1f, 0);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view,"scaleY", 1f, 0);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(alpha,scaleX,scaleY);
+        set.start();
+    }
+
+    public void showButton(View view) {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 0, 1f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view,"scaleX", 0, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view,"scaleY", 0, 1f);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(alpha,scaleX,scaleY);
+        set.start();
     }
 
 

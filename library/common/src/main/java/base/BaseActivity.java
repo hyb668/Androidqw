@@ -179,10 +179,17 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 停止浮动加载进度条
      */
     protected void onDestroy() {
+
         super.onDestroy();
         if (mPresenter != null)
             mPresenter.onDestroy();
         mRxManager.clear();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 }

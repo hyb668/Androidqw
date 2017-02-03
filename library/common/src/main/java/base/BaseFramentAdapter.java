@@ -47,12 +47,25 @@ public class BaseFramentAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return CollectionUtils.isNullOrEmpty(mTitles) ? "" :  mTitles.get(position);
-    }
-
-    @Override
     public int getCount() {
         return mFragments.size();
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return CollectionUtils.isNullOrEmpty(mTitles) ? "" :  mTitles.get(position);
+    }
+    /**
+     *  //可以给tab 可以图标
+     *  @see VideoMainFragment.initView();
+     */
+//    public View getTabView(int position){
+//        View view = LayoutInflater.from(context).inflate(R.layout.tab_item, null);
+//        TextView tv= (TextView) view.findViewById(R.id.textView);
+//        tv.setText(tabTitles[position]);
+//        ImageView img = (ImageView) view.findViewById(R.id.imageView);
+//        img.setImageResource(imageResId[position]);
+//        return view;
+//    }
+
 }

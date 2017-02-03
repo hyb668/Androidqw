@@ -1,5 +1,8 @@
 package com.google.androidqw.ui.main.activity;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +16,17 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.google.androidqw.R;
 import com.google.androidqw.bean.TabEntity;
 import com.google.androidqw.ui.main.fragment.MomentsMainFragment;
+import com.google.androidqw.ui.main.fragment.MusicMainFrament;
 import com.google.androidqw.ui.main.fragment.NewsMainFrament;
 import com.google.androidqw.ui.main.fragment.VideoMainFragment;
+import com.google.androidqw.utils.ClickUtils;
 
 import java.util.ArrayList;
 
 import app.AppConstant;
 import base.BaseActivity;
 import butterknife.Bind;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import rx.functions.Action1;
 import utils.LogUtils;
 
@@ -30,11 +36,11 @@ public class MainActivity extends BaseActivity {
     FrameLayout mRlContainer;
     @Bind(R.id.tab_layout)
     CommonTabLayout mTabLayout;
-    private String[] mTitles = {"首页", "视频", "朋友圈"};
+    private String[] mTitles = {"首页", "音乐", "视频", "朋友圈"};
     private int[] mIconUnselectIds = {
-            R.mipmap.ic_home_normal, R.mipmap.ic_video_normal, R.mipmap.ic_care_normal};
+            R.mipmap.ic_home_normal, R.mipmap.ic_music_normal, R.mipmap.ic_video_normal, R.mipmap.ic_care_normal};
     private int[] mIconSelectIds = {
-            R.mipmap.ic_home_selected, R.mipmap.ic_video_selected, R.mipmap.ic_care_selected};
+            R.mipmap.ic_home_selected, R.mipmap.ic_music_selected, R.mipmap.ic_video_selected, R.mipmap.ic_care_selected};
 
 
     private NewsMainFrament newsMainFrament;
@@ -42,7 +48,8 @@ public class MainActivity extends BaseActivity {
     private MomentsMainFragment momentsMainFragment;
 
     private int mTabLayoutHeight;
-    private ArrayList<CustomTabEntity> mTabEntityList=new ArrayList<>();
+    private ArrayList<CustomTabEntity> mTabEntityList = new ArrayList<>();
+    private MusicMainFrament musicMainFrament;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, MainActivity.class));
@@ -67,10 +74,39 @@ public class MainActivity extends BaseActivity {
     /**
      * 底部菜单的显示和隐藏
      *
-     * @param hideOrShow
+     * @param hideOrShow true 是隐藏, false 显示
      */
     private void startAnim(Boolean hideOrShow) {
         // TODO: 2016/11/17
+        if (hideOrShow && mTabLayout.getAlpha() == 0) {
+            return;
+        }
+        if (!hideOrShow && mTabLayout.getAlpha() == 1) {
+            return;
+        }
+
+        final ObjectAnimator alpha;
+        ValueAnimator animator = null;
+        if (hideOrShow) {
+            //隐藏
+            alpha = ObjectAnimator.ofFloat(mTabLayout, "alpha", 1f, 0);
+            //移动
+            animator = ValueAnimator.ofInt(mTabLayoutHeight, 0);
+        } else {
+            alpha = ObjectAnimator.ofFloat(mTabLayout, "alpha", 0, 1f);
+            animator = ValueAnimator.ofInt(0, mTabLayoutHeight);
+        }
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mTabLayout.getLayoutParams().height = (int) animation.getAnimatedValue();
+                mTabLayout.requestLayout();
+            }
+        });
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(alpha, animator);
+        set.start();
     }
 
 
@@ -79,11 +115,14 @@ public class MainActivity extends BaseActivity {
         int currentTabPosition = 0;
         if (savedInstanceState != null) {
             newsMainFrament = (NewsMainFrament) getSupportFragmentManager().findFragmentByTag("newsMainFragment");
+            musicMainFrament = (MusicMainFrament) getSupportFragmentManager().findFragmentByTag("musicMainFragment");
             videoMainFragment = (VideoMainFragment) getSupportFragmentManager().findFragmentByTag("videoMainFragment");
             momentsMainFragment = (MomentsMainFragment) getSupportFragmentManager().findFragmentByTag("MomentsMainFragment");
+
             currentTabPosition = savedInstanceState.getInt(AppConstant.MENU_CURRENT_TAB_POSITON);
         } else {
             newsMainFrament = new NewsMainFrament();
+            musicMainFrament = new MusicMainFrament();
             videoMainFragment = new VideoMainFragment();
             momentsMainFragment = new MomentsMainFragment();
             //错误 :
@@ -91,9 +130,10 @@ public class MainActivity extends BaseActivity {
             //          'int android.support.v4.app.Fragment.mNextAnim' on a null object reference
             // 所以为了能找到创建的Fragment，推荐加上Tag。
             // 原因: 因为我没有加上tag, 导致找不到就报错了;
-            transaction.add(R.id.rl_container, newsMainFrament,"newsMainFragment");
-            transaction.add(R.id.rl_container, videoMainFragment,"videoMainFragment");
-            transaction.add(R.id.rl_container, momentsMainFragment,"MomentsMainFragment");
+            transaction.add(R.id.rl_container, newsMainFrament, "newsMainFragment");
+            transaction.add(R.id.rl_container, musicMainFrament, "musicMainFragment");
+            transaction.add(R.id.rl_container, videoMainFragment, "videoMainFragment");
+            transaction.add(R.id.rl_container, momentsMainFragment, "MomentsMainFragment");
         }
         transaction.commit();
         switchTo(currentTabPosition);
@@ -104,17 +144,21 @@ public class MainActivity extends BaseActivity {
     private void switchTo(int position) {
         LogUtils.logd("主页菜单=" + position);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(newsMainFrament);
+        transaction.hide(musicMainFrament);
         transaction.hide(videoMainFragment);
         transaction.hide(momentsMainFragment);
-        transaction.hide(newsMainFrament);
         switch (position) {
             case 0:
                 transaction.show(newsMainFrament);
                 break;
             case 1:
-                transaction.show(videoMainFragment);
+                transaction.show(musicMainFrament);
                 break;
             case 2:
+                transaction.show(videoMainFragment);
+                break;
+            case 3:
                 transaction.show(momentsMainFragment);
                 break;
         }
@@ -135,23 +179,25 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         initTab();
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         if (mTabLayout != null) {
-            outState.putInt(AppConstant.MENU_CURRENT_TAB_POSITON,mTabLayout.getCurrentTab());
+            outState.putInt(AppConstant.MENU_CURRENT_TAB_POSITON, mTabLayout.getCurrentTab());
         }
     }
+
     private void initTab() {
         for (int i = 0; i < mTitles.length; i++) {
-            mTabEntityList.add(new TabEntity(mTitles[i],mIconSelectIds[i],mIconUnselectIds[i]));
+            mTabEntityList.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
         mTabLayout.setTabData(mTabEntityList);
 
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                    switchTo(position);
+                switchTo(position);
             }
 
             @Override
@@ -160,5 +206,21 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
 
+        if (ClickUtils.isFastDoubleClick()) {
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
 }

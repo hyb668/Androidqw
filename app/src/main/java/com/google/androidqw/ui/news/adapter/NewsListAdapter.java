@@ -11,9 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.androidqw.R;
+import com.google.androidqw.bean.NewsPhotoDetail;
 import com.google.androidqw.bean.NewsSummary;
 import com.google.androidqw.ui.news.activity.NewsDetailActivity;
+import com.google.androidqw.ui.news.activity.PhototDetailActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import base.BaseReclyerViewAdapter;
@@ -109,7 +112,7 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
             mRlRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NewsDetailActivity.start(mContext,mNewsSummaryPhotoIv,summary.getPostid(),summary.getImgsrc());
+                    NewsDetailActivity.start(mContext, mNewsSummaryPhotoIv, summary.getPostid(), summary.getImgsrc());
                 }
             });
         }
@@ -135,7 +138,7 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
             super(itemView);
             ButterKnife.bind(PhotoItemHolder.this, itemView);
             ViewGroup.LayoutParams params = mLlRoot.getLayoutParams();
-            params.width=DisplayUtil.getScreenWidth(itemView.getContext());
+            params.width = DisplayUtil.getScreenWidth(itemView.getContext());
             mLlRoot.setLayoutParams(params);
         }
 
@@ -143,6 +146,7 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
             mNewsSummaryTitleTv.setText(summary.getTitle());
             mNewsSummaryPtimeTv.setText(summary.getPtime());
             setImagDatas(summary);
+            initListener(summary);
         }
 
 
@@ -170,32 +174,31 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
             int PhotoOneHeight = DisplayUtil.dip2px(150);
             ViewGroup.LayoutParams params = mNewsSummaryPhotoIvGroup.getLayoutParams();
             //无数据,肯定不会走这里
-            setVisible(mNewsSummaryPhotoIvLeft, false) ;
+            setVisible(mNewsSummaryPhotoIvLeft, false);
             setVisible(mNewsSummaryPhotoIvMiddle, false);
             setVisible(mNewsSummaryPhotoIvRight, false);
             switch (list.size()) {
-                case 1:
+                case 1://一个图片 p=0
                     setVisible(mNewsSummaryPhotoIvLeft, true);
                     setImageUrl(getPicStr(type, list, 0), mNewsSummaryPhotoIvLeft);
-                    params.height=PhotoOneHeight;
+                    params.height = PhotoOneHeight;
                     break;
-                case 2:
+                case 2://2个图片 p==0 , 1
                     setVisible(mNewsSummaryPhotoIvLeft, true);
                     setVisible(mNewsSummaryPhotoIvMiddle, true);
                     setImageUrl(getPicStr(type, list, 0), mNewsSummaryPhotoIvLeft);
                     setImageUrl(getPicStr(type, list, 1), mNewsSummaryPhotoIvMiddle);
-                    params.height=PhotoTwoHeight;
+                    params.height = PhotoTwoHeight;
                     break;
                 default:
                     setMuitImage(type, list);
-                    params.height=PhotoThreeHeight;
+                    params.height = PhotoThreeHeight;
                     break;
             }
-
-
             mNewsSummaryPhotoIvGroup.setLayoutParams(params);
         }
 
+        //3个图片 p== 0,1,2
         private void setMuitImage(String type, List list) {
             setVisible(mNewsSummaryPhotoIvLeft, true);
             setVisible(mNewsSummaryPhotoIvMiddle, true);
@@ -215,5 +218,63 @@ public class NewsListAdapter extends BaseReclyerViewAdapter<NewsSummary> {
             }
             return "";
         }
+
+        private void initListener(final NewsSummary summary) {
+            mNewsSummaryPhotoIvLeft.setOnClickListener(new onPhotoDetailClickListener(summary, 0));
+            mNewsSummaryPhotoIvMiddle.setOnClickListener(new onPhotoDetailClickListener(summary, 1));
+            mNewsSummaryPhotoIvRight.setOnClickListener(new onPhotoDetailClickListener(summary, 2));
+        }
+
+
+        private NewsPhotoDetail getPhotolist(NewsSummary summary) {
+            NewsPhotoDetail newsPhotoDetail = new NewsPhotoDetail();
+
+            setNewPhotoDetail(summary, newsPhotoDetail);
+            return newsPhotoDetail;
+        }
+
+        private void setNewPhotoDetail(NewsSummary summary, NewsPhotoDetail detail) {
+            List<NewsPhotoDetail.Picture> picures = new ArrayList<>();
+
+            if (!CollectionUtils.isNullOrEmpty(summary.getAds())) {
+                List<NewsSummary.AdsBean> beanList = summary.getAds();
+                for (NewsSummary.AdsBean adsBean : beanList
+                        ) {
+                    picures.add(new NewsPhotoDetail.Picture(adsBean.getTitle(), adsBean.getImgsrc()));
+                }
+            } else if (!CollectionUtils.isNullOrEmpty(summary.getImgextra())) {
+                List<NewsSummary.ImgextraBean> imgextra = summary.getImgextra();
+                for (NewsSummary.ImgextraBean imgextraBean : imgextra
+                        ) {
+                    picures.add(new NewsPhotoDetail.Picture("", imgextraBean.getImgsrc()));
+                }
+
+            } else {
+                //无数据 // STOPSHIP: 2016/12/27  这里可以抽取下 共用下面的隐藏和获取尺寸
+                String imgsrc = summary.getImgsrc();
+                picures.add(new NewsPhotoDetail.Picture("", imgsrc));
+            }
+
+            detail.setPictures(picures);
+        }
+
+
+        private class onPhotoDetailClickListener implements View.OnClickListener {
+
+            private NewsSummary mSummary;
+            private int mPosition;
+
+            public onPhotoDetailClickListener(NewsSummary summary, int position) {
+                mSummary = summary;
+                mPosition = position;
+            }
+
+            @Override
+            public void onClick(View v) {
+                PhototDetailActivity.start(mContext, mPosition, getPhotolist(mSummary));
+            }
+        }
     }
+
+
 }

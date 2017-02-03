@@ -14,7 +14,7 @@ import com.google.androidqw.R;
 import com.google.androidqw.bean.NewsChannelTable;
 import com.google.androidqw.ui.news.adapter.ChannelAdapter;
 import com.google.androidqw.ui.news.contract.NewsChannelContract;
-import com.google.androidqw.ui.news.model.ChannelItemMoveChanage;
+import com.google.androidqw.bean.ChannelItemMoveChanage;
 import com.google.androidqw.ui.news.model.NewsChannelModel;
 import com.google.androidqw.ui.news.prensenter.NewsChannelPrensent;
 import com.google.androidqw.view.ItemDragHelpterCallBack;

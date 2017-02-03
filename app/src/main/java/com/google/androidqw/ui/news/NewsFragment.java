@@ -2,6 +2,7 @@ package com.google.androidqw.ui.news;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.google.androidqw.R;
 import com.google.androidqw.bean.NewsSummary;
@@ -96,6 +97,22 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
             mStartPage = 0;
             mPresenter.getNewsListDataRequest(mNewsType, mNesId, mStartPage);
         }
+
+        mXrecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LogUtils.logd("NewsFragment.onScrolled." + dy);
+                boolean isDownScroll = true;
+                if (dy < -25) {
+                    isDownScroll = false;
+                    mRxManager.post(AppConstant.MENU_SHOW_HIDE, isDownScroll);
+                } else if (dy > 25) {
+                    isDownScroll = true;
+                    mRxManager.post(AppConstant.MENU_SHOW_HIDE, isDownScroll);
+                }
+            }
+        });
     }
 
 
@@ -123,6 +140,7 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
     @Override
     public void showLoading(String title) {
         //加载进度条,
+
     }
 
     @Override
@@ -134,5 +152,7 @@ public class NewsFragment extends BaseFragment<NewsListPrensenter, NewsListModel
     @Override
     public void showErrorTip(String msg) {
         //加载网络错误
+        mXrecycleView.noMoreLoading();
+
     }
 }

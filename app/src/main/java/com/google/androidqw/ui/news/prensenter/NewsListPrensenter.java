@@ -41,7 +41,7 @@ public class NewsListPrensenter extends NewsListContract.Presenter {
 
     @Override
     public void getNewsListDataRequest(String type, String id, int startPage) {
-      mRxManage.add(mModel.getNewsListData(type,id,startPage).subscribe(new RxSubscriber<List<NewsSummary>>(mContext, false) {
+      mRxManage.add(mModel.getNewsListData(type,id,startPage).subscribe(new RxSubscriber<List<NewsSummary>>(mContext) {
           @Override
           protected void _onNext(List<NewsSummary> summaries) {
               mView.returnNewsListData(summaries);

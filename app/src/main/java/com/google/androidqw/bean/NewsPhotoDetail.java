@@ -16,13 +16,12 @@
  */
 package com.google.androidqw.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.databinding.ObservableField;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-public class NewsPhotoDetail implements Parcelable {
+public class NewsPhotoDetail implements Serializable {
     private String title;
     private List<Picture> pictures;
 
@@ -42,88 +41,22 @@ public class NewsPhotoDetail implements Parcelable {
         this.pictures = pictures;
     }
 
-    public static class Picture implements Parcelable {
-        private String title;
 
-        public String getImgSrc() {
-            return imgSrc;
+
+    public static class Picture  implements Serializable {
+        public ObservableField<String> title=new ObservableField<>();
+        public ObservableField<String> imgSrc=new ObservableField<>();
+
+        public Picture(String titleStr,String imgSrcStr){
+            title.set(titleStr);
+            imgSrc.set(imgSrcStr);
         }
-
-        public void setImgSrc(String imgSrc) {
-            this.imgSrc = imgSrc;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        private String imgSrc;
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.title);
-            dest.writeString(this.imgSrc);
-        }
-
-        public Picture() {
-        }
-
-        protected Picture(Parcel in) {
-            this.title = in.readString();
-            this.imgSrc = in.readString();
-        }
-
-        public static final Creator<Picture> CREATOR = new Creator<Picture>() {
-            @Override
-            public Picture createFromParcel(Parcel source) {
-                return new Picture(source);
-            }
-
-            @Override
-            public Picture[] newArray(int size) {
-                return new Picture[size];
-            }
-        };
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeList(this.pictures);
-    }
 
     public NewsPhotoDetail() {
     }
 
-    protected NewsPhotoDetail(Parcel in) {
-        this.title = in.readString();
-        this.pictures = new ArrayList<>();
-        in.readList(this.pictures, Picture.class.getClassLoader());
-    }
 
-    public static final Creator<NewsPhotoDetail> CREATOR = new Creator<NewsPhotoDetail>() {
-        @Override
-        public NewsPhotoDetail createFromParcel(Parcel source) {
-            return new NewsPhotoDetail(source);
-        }
-
-        @Override
-        public NewsPhotoDetail[] newArray(int size) {
-            return new NewsPhotoDetail[size];
-        }
-    };
 }

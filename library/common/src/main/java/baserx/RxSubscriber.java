@@ -8,6 +8,7 @@ import com.example.common.R;
 import app.BaseApplication;
 import rx.Subscriber;
 import utils.NetWorkUtils;
+import utils.ToastUitl;
 import view.LoadingDialog;
 
 /**
@@ -71,6 +72,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
             try {
                 LoadingDialog.showDialogForLoading((Activity) mContext,msg,true);
             } catch (Exception e) {
+                LoadingDialog.closeDialogForloading();
                 e.printStackTrace();
             }
         }
@@ -84,7 +86,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     @Override
     public void onError(Throwable e) {
         if (showDialog)
-           LoadingDialog.showDialogForLoading((Activity) mContext);
+          LoadingDialog.closeDialogForloading();
         e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(BaseApplication.getAppContext())) {
@@ -92,6 +94,7 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
         }
         //服务器
         else if (e instanceof Exception) {
+            ToastUitl.show(BaseApplication.getAppContext().getString(R.string.net_error));
             _onError(e.getMessage());
         }
         //其它

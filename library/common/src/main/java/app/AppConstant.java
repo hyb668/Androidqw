@@ -23,7 +23,7 @@ public class AppConstant {
     //加载更多和上拉刷新后,我们把展开文本和收起进行重置
     public static  final  String CICLEZONE_EXPAND_FINISH ="reset_expand";
 
-    //低面板的显示和隐藏
+    //低面板的显示和隐藏 : true 是隐藏, false 显示
     public static  final  String MENU_SHOW_HIDE="menu_show_hide";
     //底部面板的位置
     public static  final  String MENU_CURRENT_TAB_POSITON="menu_current_tab_positon";
@@ -43,7 +43,13 @@ public class AppConstant {
     public static String PARAMS_NAME_NEWDETAIL_POST_ID ="newdetail_post_id";
     public static String PARAMS_NAME_NEWDETAIL_IMG_URL="newdetail_img_url";
     public static final String TRANSITION_ANIMATION_NEWS_PHOTOS = "transition_animation_news_photos";
+
+    //图片详情
+    public static String PARAMS_NAME_PHOTO_NEWS_DETAIL="photo_news_detail";
+    public static String PARAMS_NAME_PHOTO_NEWS_DETAIL_POSITION="photo_news_detail_p";
+
     /** 视频 */
+    public static final String VIDEO_TYPE = "video_type";
 
     /** 朋友圈 */
 

@@ -28,6 +28,7 @@ import base.BaseFragment;
 import base.BaseFramentAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
 /**
  * ============================================================
@@ -79,7 +80,23 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
                 mRxManager.post(AppConstant.NEWLIST_TO_TOP, "");
             }
         });
+        mRxManager.on(AppConstant.MENU_SHOW_HIDE, new Action1<Boolean>() {
+            @Override
+            public void call(Boolean showOrHide) {
+                if (showOrHide && mFloatbtn.getAlpha() == 0) {
+                    return;
+                }
+                if (!showOrHide && mFloatbtn.getAlpha() == 1) {
+                    return;
+                }
+                if (showOrHide) {
+                    hideButtion(mFloatbtn);
+                } else {
+                    showButton(mFloatbtn);
+                }
+            }
 
+        });
         mAddChannelIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +104,7 @@ public class NewsMainFrament extends BaseFragment<NewsMainPresenter, NewsMainMod
             }
         });
     }
+
 
     @Override
     // NewsMainContract.View 实现这个接口,接口会在数据拿到的时候,反给我们; 给他个接口对象,在合适的时候拿到参数

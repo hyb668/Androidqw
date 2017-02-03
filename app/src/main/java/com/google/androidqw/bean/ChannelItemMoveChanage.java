@@ -1,4 +1,4 @@
-package com.google.androidqw.ui.news.model;
+package com.google.androidqw.bean;
 
 /**
  * Created by liuyuzhe on 2017/1/31.

@@ -30,6 +30,10 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    dataBinding{
+        enabled true;
+    }
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -65,5 +69,6 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     //悬浮动画菜单
     compile 'com.jcodecraeer:xrecyclerview:1.2.7'
+
     compile files('libs/ToolsFinal-1.1.5-release.jar')
 }

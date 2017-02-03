@@ -25,6 +25,8 @@ public class LoadingDialog {
      * @param cancelable
      */
     public static Dialog showDialogForLoading(Activity activity , String msg , boolean cancelable) {
+        if (dialog!=null && dialog.isShowing())closeDialogForloading();
+
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_loading, null);
         TextView  textView = (TextView) view.findViewById(R.id.id_tv_loading_dialog_text);
         textView.setText(msg);
@@ -55,6 +57,7 @@ public class LoadingDialog {
     public static  void closeDialogForloading(){
         if (dialog != null) {
             dialog.cancel();
+
         }
     }
 }

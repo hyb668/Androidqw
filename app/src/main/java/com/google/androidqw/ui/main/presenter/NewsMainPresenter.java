@@ -44,7 +44,7 @@ public class NewsMainPresenter extends NewsMainContract.Presenter {
 
     @Override
     public void loadMineChannelsRequest() {
-        mRxManage.add(mModel.loadMineNewsChannels().subscribe(new RxSubscriber<List<NewsChannelTable>>(mContext,false) {
+        mRxManage.add(mModel.loadMineNewsChannels().subscribe(new RxSubscriber<List<NewsChannelTable>>(mContext) {
             @Override
             protected void _onNext(List<NewsChannelTable> newsChannelTables) {
                 //要数据

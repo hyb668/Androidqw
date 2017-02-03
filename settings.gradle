@@ -1,3 +1,5 @@
 include ':app'
 include ':library:common'
 include ':library:pathanimlib'
+include ':library:jcvideoplayer-lib'
+include ':library:zoomlibrary'
